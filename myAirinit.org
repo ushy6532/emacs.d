@@ -1,0 +1,623 @@
+
+* Packages
+** 저장소
+   #+begin_src emacs-lisp :tangle yes
+    (require 'package)
+     (setq package-archives
+	   '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
+	     ("melpa" . "https://melpa.org/packages/")
+	     ("gnu" . "https://elpa.gnu.org/packages/")))
+     (package-initialize)
+   #+end_src
+** 갱신
+   #+begin_src emacs-lisp :tangle yes
+     ;; 구 버전 패키지를 저장하지 않습니다.
+     (unless (boundp 'package-pinned-packages)
+       (setq package-pinned-packages ()))
+
+     ;; 설치 여부를 확인하고 없을 경우 설치합니다.
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+
+     ;; 에러가 발생할 경우 elpa 폴더를 제거하고 처음부터 다시 설치합니다.
+     (eval-when-compile
+       (condition-case nil
+	   (require 'use-package)
+	 (error 
+	  (message "Use-package error; re-initializing...")
+	   (delete-directory "~/.emacs.d/elpa" t)
+	   (package-initialize)
+	   (package-install 'use-package)
+	   (require 'use-package))))
+
+     ;; 로딩 속도가 느린 패키지는 *message* 버퍼에 표시합니다. 
+     ;(setq use-package-verbose t) 
+     ;; use-package에서 불러오는 패키지가 설치되었는지 항상 확인하고, 설치되어 있지 않으면 자동으로 다운받아 설치합니다.
+     (setq use-package-always-ensure t)
+
+     ;; auto package UPDATE
+     (use-package auto-package-update
+     ;use-package는 패키지를 설치하고 로딩하지만, 자동으로 업데이트하지는 않. 이를 위해서 auto-package-update.el을 설치합니다.
+       :config
+       ;; 패키지의 업데이트가 존재할 경우 자동으로 업데이트를 진행합니다.
+       (auto-package-update-maybe)
+       ;; 1달(4주)에 한번 빈도로 자동 업데이트를 진행합니다.
+       (setq auto-package-update-interval 28)
+       ;; 업데이트를 진행하기 전에 진행 여부를 물어봅니다.
+       (setq auto-package-update-prompt-before-update t)
+       ;; 업데이트 진행 후 이전 버전 파일을 삭제합니다.
+       (setq auto-package-update-delete-old-versions t))
+
+     (setq
+     ;기본적으로 Emacs는 패키지를 설치할 때 관련 정보를 init.el에 기록합니다. 이를 방지하도록 설정합니다.
+      package--init-file-ensured t
+     ;; org 관련 프로세스가 자동으로 종료될 수 있도록 합니다.
+      kill-buffer-query-functions nil
+     ;; 오래된 버전의 파일을 로드하지 않고 재컴파일하도록 합니다.
+      load-prefer-newer t)
+
+   #+end_src
+* Korean. LANG
+** 한글 설정
+  #+begin_src emacs-lisp :tangle yes
+    ;; Emacs는 기본으로 CJK (한중일) 문자를 인코딩하지만, 유니코드 환경에서 문제 발생. 이 옵션 꺼줌
+    ; (setq utf-translate-cjk-mode nil)
+    ;; LANG - eshell locale
+     (setenv "LANG" "ko_KR.UTF-8")
+
+     ;; UTF-8 설정 모음
+     ;(set-language-environment 'utf-8)
+     (setq locale-coding-system 'utf-8)
+     (set-default-coding-systems 'utf-8)
+     (set-terminal-coding-system 'utf-8)
+
+    ;; Set default font
+    (set-face-attribute 'default nil
+			:family "D2coding"
+			:foundry "SAND"
+			:slant 'normal
+			:weight 'normal
+			:height 125
+			:width 'normal)
+
+  #+end_src
+** Keyboard
+   #+begin_src emacs-lisp :tangle yes
+    ;; Keyboard 2벌식 지정
+    (setq default-input-method "korean-hangul")
+     ;; S+Space 한글전환
+     (global-set-key (kbd "S-SPC") 'toggle-input-method)
+   #+end_src
+** korean Calendar
+   #+begin_src emacs-lisp :tangle yes
+     ;; for Korean Calendar
+     ;(add-to-list `load-path (expand-file-name "~/.emacs.d/cal-korea-x"))
+     ;(require 'cal-korea-x)
+     ;(setq holiday-general-holidays cal-korea-x-korean-holidays)
+
+     ;월, 일 한글화
+     ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
+     (setq calendar-week-start-day 1   ;start 0 일요일, 1 토요일
+	   calendar-day-name-array ["일" "월" "화" "수" "목" "금" "토"]
+	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
+	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
+   #+end_src
+* 외관, Global Key
+** 외관
+  #+begin_src emacs-lisp :tangle yes
+    ; 커서 모양
+    (setq-default cursor-type 'box)
+    ;(setq-default cursor-type 'bar)
+    ;(setq-default cursor-type 'hbar)
+
+    ;Window title 설정
+    (setq frame-title-format "dole's Emacs - %b")
+    (setq icon-title-format "Emacs - %b")
+
+    ;시작 화면 메세지 끄기
+    (setq inhibit-startup-message t)
+    (setq initial-scratch-message "")
+
+    ;상단 메뉴 숨기기0, 보이기 1
+    (menu-bar-mode 1)
+
+    ;도구 모음 숨기기
+    (tool-bar-mode 0)
+
+    ;;GUI환경에서 시작시 창화면 최대화
+    (add-to-list 'default-frame-alist'(fullscreen . maximized))
+
+    ; 라인 표시하기
+    (global-linum-mode 1)
+
+    ;; 선택영역 표시
+    (transient-mark-mode t)
+
+    ;; wordrap
+    (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+
+    ;GUI 화경에서 줄 간격 조절
+    (setq-default line-spacing 6)
+
+    ;파일이 수정되었을 때 자동으로 다시 읽어드리도록 하는 설정
+    ;(global-auto-revert-mode t)
+
+    ;찾기 기능에서 하이라이트 설정
+    (setq search-highlight t)    
+  #+end_src
+** 최근 파일
+    #+begin_src emacs-lisp :tangle yes
+    ;;파일 편집 위치 기억
+;    (require 'saveplace)
+;    (setq-default save-place t)
+;    (setq save-place-file "~/_places.sav")
+
+    ;;최근 파일 접근
+    (require 'recentf)
+    (recentf-mode 1)
+    (setq recentf-max-menu-items 10) ;최근 파일 목록수
+
+    #+end_src
+** theme
+   #+begin_src emacs-lisp :tangle yes
+      (use-package material-theme
+       ;material
+       :ensure t
+	:defer t)
+
+      (use-package zenburn-theme
+	;zenburn
+	:ensure t
+	:defer t)
+
+      (use-package solarized-theme
+	;solarized
+	:defer t
+	:init
+	(setq solarized-use-variable-pitch nil)
+	:ensure t)
+   #+end_src
+*** Switch themes
+    #+begin_src emacs-lisp :tangle yes
+      ;; loading default theme
+      (load-theme 'material t)
+
+      ;; https://github.com/nkicg6/emacs-config/blob/master/config.org
+      (defun switch-theme (theme)
+	"Disables any currently active themes and loads THEME."
+	;; This interactive call is taken from `load-theme'
+	(interactive
+	 (list
+	  (intern (completing-read "Choice custum theme: "
+				   (mapc 'symbol-name
+					 (custom-available-themes))))))
+	(let ((enabled-themes custom-enabled-themes))
+	  (mapc #'disable-theme custom-enabled-themes)
+	  (load-theme theme t)))
+
+      (defun disable-active-themes ()
+	"Disables any currently active themes listed in `custom-enabled-themes'."
+	(interactive)
+	(mapc #'disable-theme custom-enabled-themes))
+
+      (global-set-key (kbd "C-c t") 'switch-theme)
+    #+end_src
+** 시작모드
+   #+begin_src emacs-lisp :tangle yes
+    ;시작 모드를 ORGMode로 시작하기
+     (setq initial-major-mode 'org-mode)
+   #+end_src
+** 글로벌 키
+   #+begin_src emacs-lisp :tangle yes
+      ;; org capture
+      (global-set-key (kbd "C-c c") 'org-capture)
+      (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+     ;c-x w 'news
+     ;c-c t 'switch themes
+   #+end_src
+* Mode, 확장
+** for Pdftools
+   #+begin_src emacs-lisp :tangle yes
+   #+end_src
+** Org-mode
+*** org
+    #+begin_src emacs-lisp :tangle yes
+      (use-package org
+;	:ensure org-plus-contrib     ;for org-contacts
+	:config
+	;; 기본적으로 org-mode는 shift + 방향키로 블록 선택하는 것을 막아놓고 있음.
+	;; 이를 옵션을 통해 해제해 줍니다.
+      ;  (setq org-support-shift-select t) 
+      
+	;; org-mode 문서를, 항목의 깊이에 따라 들여쓰기하도록 설정. 단, 항목의 star는 숨기지 않음
+	(progn
+	  (setq org-startup-indented nil)
+	  (setq org-hide-leading-stars nil)
+	  (setq org-adapt-indentation t)))
+      
+	  ;(setq org-image-actual-width nil)        ;image fulscreen hebit
+	  ;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
+      
+	;; org-ac
+	  ;; (use-package org-ac
+	  ;; 	  :ensure t
+	  ;; 	  :init (progn
+	  ;; 		(require 'org-ac)
+	  ;; 		(org-ac/config-default)))
+	;; org-mode는 기본적으로 강조문(굵게, 이탤릭 등)을 하나의 단어에 대해서만 적용하도록 하고 있습니다. 예컨대 *이렇게*는 굵게 글씨를 쓸 수 없습니다. 조사가 들어가는 한중일 언어에 쓰기에는 부적절한 정책입니다. 따라서 강조문자 양 옆에 (알파벳이 아닌) 멀티바이트 문자가 오더라도 작동하도록 설정을 변경합니다(물론 이는 완전한 해결책은 아니며, 더 합리적인 방법에 대해서는 고민이 필요합니다.
+;	(setcar org-emphasis-regexp-components " \t('\"{[:multibyte:]")
+;	(setcar (nthcdr 1 org-emphasis-regexp-components) "[:multibyte:]- \t.,:!?;'\")}\\")
+;	(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+      
+	;; 할 일 설정하기 Todo
+	; C-c C-v - 현재 문서에 있는 할 일 목록 보기
+	; C-c / t - 현재 할 일 항목외 모두 접기
+	(setq org-todo-keywords
+	 '((sequence "TODO" "ING" "WAIT" "DONE")))
+    #+end_src
+    
+*** for agenda
+    #+begin_src emacs-lisp :tangle yes
+    ;; for agenda
+    ; C-c [ - 아젠다 파일 목록에 문서 추가
+    ; C-c ] - 아젠다 파일 목록에서 문서를 제거
+    ; C-c . - 일자 추가
+    ; C-u C-c - 일자와 시간 추가
+    ; C-g - 하던 일 멈추고 벗어남. 명령 취소;
+
+    (setq org-agenda-files '("~/Dropbox/Doc/Life/org/memo_Main.org"
+			     "~/Dropbox/Doc/Life/org/Agenda.org"))
+      
+    (add-hook 'org-mode-hook 
+	      (lambda ()
+	      (local-set-key (kbd "C-c a") 'org-agenda)))
+       ;      (global-set-key (kbd "C-c a") 'org-agenda)))
+
+    #+end_src    
+
+*** for capture
+    #+begin_src emacs-lisp :tangle yes
+      ; global key: C-c c
+      (setq org-capture-templates
+       '(
+	  ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
+	   "* %?\n insert on: %U %i")
+	  ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
+	   "** 이름: %?\n  - 회사: \n  - 연락: \n  - 메모: \n   %t"))
+       )
+
+    #+end_src
+*** for bullet
+    #+begin_src emacs-lisp :tangle yes
+    ;; org-bullets
+	       ;     (use-package org-bullets
+	       ;	 :ensure t
+	       ;	 :config
+	       ;	 (add-hook 'org-mode-hook #'org-bullets-mode))
+
+   ;; org-superstar  ;; improved version of org-bullets
+  (use-package org-superstar
+	    :ensure t
+	    :config
+    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+
+    #+end_src
+*** for export PDF,markdown
+   #+begin_src emacs-lisp :tangle yes
+     ;; for export PDF
+     (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
+     (setq org-latex-to-pdf-process
+	   '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	     "pdflatex -interaction nonstopmode -output-directory %o %f"
+	     "pdflatex -interaction nonstopmode -output-directory %o %f"))
+
+		    ;; '("xelatex -interaction nonstopmode -output-directory %o %f"
+		    ;; 	 "xelatex -interaction nonstopmode -output-directory %o %f"
+		    ;; 	 "xelatex -interaction nonstopmode -output-directory %o %f"))
+      ;;from https://www.geneatcg.com/emacs-org-mode-export-to-pdf   
+	  (unless (boundp 'org-latex-classes)
+	   (setq org-latex-classes nil))
+
+     (add-to-list 'org-latex-classes
+		      '("under9"
+			"\\documentclass[a4paper,12pt]{oblivoir}
+	 \\usepackage[utf8]{inputenc}
+	 \\usepackage[T1]{fontenc}
+	 \\usepackage{fixltx2e}
+	 \\usepackage{graphicx}
+	 \\usepackage{longtable}
+	 \\usepackage{float}
+	 \\usepackage{wrapfig}
+	 \\usepackage{rotating}
+	 \\usepackage[normalem]{ulem}
+	 \\usepackage{amsmath}
+	 \\usepackage{textcomp}
+	 \\usepackage{marvosym}
+	 \\usepackage{wasysym}
+	 \\usepackage{amssymb}
+	 \\usepackage{hyperref}
+	 \\usepackage{mathpazo}
+	 \\usepackage{color}
+	 \\usepackage{enumerate}
+	 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
+	 \\tolerance=1000
+	       [NO-DEFAULT-PACKAGES]
+	       [PACKAGES]
+	       [EXTRA]
+	 \\linespread{1.6}
+	 \\hypersetup{pdfborder=0 0 0}"
+			("\\chapter{%s}" . "\\chapter*{%s}")
+			("\\section{%s}" . "\\section*{%s}")
+			("\\subsection{%s}" . "\\subsection*{%s}")
+			("\\paragraph{%s}" . "\\paragraph*{%s}")
+			("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+	 (add-to-list 'org-latex-classes
+		      '("ethz"
+			"\\documentclass[a4paper,12pt,titlepage]{oblivoir}
+	 \\usepackage[utf8]{inputenc}
+	 \\usepackage[T1]{fontenc}
+	 \\usepackage{fixltx2e}
+	 \\usepackage{graphicx}
+	 \\usepackage{longtable}
+	 \\usepackage{float}
+	 \\usepackage{wrapfig}
+	 \\usepackage{rotating}
+	 \\usepackage[normalem]{ulem}
+	 \\usepackage{amsmath}
+	 \\usepackage{textcomp}
+	 \\usepackage{marvosym}
+	 \\usepackage{wasysym}
+	 \\usepackage{amssymb}
+	 \\usepackage{hyperref}
+	 \\usepackage{mathpazo}
+	 \\usepackage{color}
+	 \\usepackage{enumerate}
+	 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
+	 \\tolerance=1000
+	       [NO-DEFAULT-PACKAGES]
+	       [PACKAGES]
+	       [EXTRA]
+	 \\linespread{1.6}
+	 \\hypersetup{pdfborder=0 0 0}"
+			("\\chapter{%s}" . "\\chapter*{%s}")
+			("\\section{%s}" . "\\section*{%s}")
+			("\\subsection{%s}" . "\\subsection*{%s}")
+			("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+			("\\paragraph{%s}" . "\\paragraph*{%s}")
+			("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+
+	 (add-to-list 'org-latex-classes
+		      '("article"
+			"\\documentclass[11pt,a4paper]{article}
+	 \\usepackage[utf8]{inputenc}
+	 \\usepackage[T1]{fontenc}
+	 \\usepackage{fixltx2e}
+	 \\usepackage{graphicx}
+	 \\usepackage{longtable}
+	 \\usepackage{float}
+	 \\usepackage{wrapfig}
+	 \\usepackage{rotating}
+	 \\usepackage[normalem]{ulem}
+	 \\usepackage{amsmath}
+	 \\usepackage{textcomp}
+	 \\usepackage{marvosym}
+	 \\usepackage{wasysym}
+	 \\usepackage{amssymb}
+	 \\usepackage{hyperref}
+	 \\usepackage{mathpazo}
+	 \\usepackage{color}
+	 \\usepackage{enumerate}
+	 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
+	 \\tolerance=1000
+	       [NO-DEFAULT-PACKAGES]
+	       [PACKAGES]
+	       [EXTRA]
+	 \\linespread{1.6}
+	 \\hypersetup{pdfborder=0 0 0}"
+			("\\section{%s}" . "\\section*{%s}")
+			("\\subsection{%s}" . "\\subsection*{%s}")
+			("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+			("\\paragraph{%s}" . "\\paragraph*{%s}")
+			("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+
+	 (add-to-list 'org-latex-classes '("ebook"
+					   "\\documentclass[11pt, oneside]{memoir}
+	 \\setstocksize{9in}{6in}
+	 \\settrimmedsize{\\stockheight}{\\stockwidth}{*}
+	 \\setlrmarginsandblock{2cm}{2cm}{*} % Left and right margin
+	 \\setulmarginsandblock{2cm}{2cm}{*} % Upper and lower margin
+	 \\checkandfixthelayout
+	 % Much more laTeX code omitted
+	 "
+					   ("\\chapter{%s}" . "\\chapter*{%s}")
+					   ("\\section{%s}" . "\\section*{%s}")
+					   ("\\subsection{%s}" . "\\subsection*{%s}")))
+
+     ;; from https://github.com/clockoon/my-emacs-setting/blob/master/config.org     
+     ;; ** <<Dissertation>>
+       (add-to-list 'org-latex-classes
+		    '("dissertation"
+		      "\\documentclass[12pt,a4paper]{oblivoir}"
+		      ("\\chapter{%s}" . "\\chapter*{%s}")
+		      ("\\section{%s}" . "\\section*{%s}")
+		      ("\\subsection{%s}" . "\\subsection*{%s}")
+		      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+     ;; ** <<APS journals>>
+     ;; ref: https://github.com/jkitchin/jmax
+       (add-to-list 'org-latex-classes 
+		    '("revtex4-1"
+		      "\\documentclass{revtex4-1}
+		  [NO-DEFAULT-PACKAGES]
+		  [PACKAGES]
+		  [EXTRA]"
+		      ("\\section{%s}" . "\\section*{%s}")
+		      ("\\subsection{%s}" . "\\subsection*{%s}")
+		      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+		      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+		      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+     ;; for export markdown
+	      (eval-after-load "org"
+	       '(require 'ox-md nil t))
+   #+end_src
+   
+*** org-pdftools
+    #+begin_src emacs-lisp :tangle yes
+;    (Use-package org-pdftools
+;       :defer t
+;       :hook (org-load-hook . org-pdftools-setup-link))
+    #+end_srcy
+*** for PPT
+   #+begin_src emacs-lisp :tangle yes
+     (use-package org-tree-slide
+	:custom
+	(org-image-actual-width nil))
+    #+end_src
+** yasnippet
+   #+begin_src emacs-lisp :tangle yes
+     (use-package yasnippet
+	 :ensure t
+	 :init
+	 (progn
+	 (yas-global-mode 1)
+       ))
+   #+end_src
+** auto-complete
+   #+begin_src emacs-lisp :tangle yes
+     ;;auto-complete
+     ;; (use-package auto-complete
+     ;;     :ensure t
+     ;;     :init
+     ;;   (progn
+     ;;     (ac-config-default)
+     ;;     (global-auto-complete-mode t)
+     ;;   ))
+     
+   #+end_src
+** company
+   #+begin_src emacs-lisp :tangle yes
+     ;;auto-complete
+     (use-package company
+	:config
+        (setq company-idle-delay 0
+	      company-minimum-prefix-length 3
+	      company-selection-wrap-around t))
+     (global-company-mode)
+   #+end_src
+
+** which-key
+   #+begin_src emacs-lisp :tangle yes
+     ;; which-key
+     (use-package which-key
+	 :ensure t
+	 :config
+       (which-key-mode))
+
+   #+end_src
+** ace-window
+   #+begin_src emacs-lisp :tangle yes
+     ;; Ace-window
+     (global-set-key (kbd "M-o") 'ace-window)
+     ;(global-set-key [M-left] 'windmove-left)          ; move to left window
+     ;(global-set-key [M-right] 'windmove-right)        ; move to right window
+     ;(global-set-key [M-up] 'windmove-up)              ; move to upper window
+     ;(global-set-key [M-down] 'windmove-down)          ; move to lower window
+
+   #+end_src
+** markdown-mode
+   #+begin_src emacs-lisp :tangle yes
+     ;; mark-down mode
+     (use-package markdown-mode
+       :ensure t
+       :commands (markdown-mode gfm-mode)
+       :mode (("README\\.md\\'" . gfm-mode)
+	      ("\\.md\\'" . markdown-mode)
+	      ("\\.markdown\\'" . markdown-mode))
+       )
+     ;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진 multimarkdown
+
+   #+end_src
+** cua-mode
+   #+begin_src emacs-lisp :tangle yes
+     ;; cua-mode
+     ;; 잘라내기,붙여넣기,CTR+C,V를 활성화.즉,윈도우처럼 사용가능
+     (cua-mode)
+   #+end_src
+** guide-key
+   #+begin_src emacs-lisp :tangle yes
+     ;; guide-key
+     ;복잡한 키 바인딩을 특정 조합의 키를 누르면 그에 해당하는 바인딩 목록 표시
+     ;(use-package guide-key
+     ;  :diminish guide-key-mode
+     ;  :config
+     ;  (progn
+     ;  (setq guide-key/guide-key-sequence '("C-x r" "C-x 4"))
+     ;  (guide-key-mode 1)))  ; Enable guide-key-mode
+
+   #+end_src
+
+** Joplin
+   #+begin_src emacs-lisp :tangle yes
+   ;; sync for Joplin external editor
+   ;; emacs가 원본 파일을 계속 편집하는 동안 내용을 새 파일에 복사하여 백업 파일을 강제로 만듬
+   ;; markdown-mode일 경우 : Bug
+    ;;(add-hook 'markdown-mode-hook
+    ;;      '(setq backup-by-copying t))
+   ;(setq backup-by-copying t)
+   #+end_src
+
+** ivy,counsel,swiper
+   #+begin_src emacs-lisp :tangle yes
+   ;; Ivy는 컨텍스트와 상관없이 이맥스에서 자동완성을 도와주는 도구입니다.
+   ;; Ivy는 Ivy를 사용해 이맥스의 기본 기능을 개선시킨 함수들을 제공하는데 이를 Counsel이라고 부릅니다.
+   ;; Swiper는 이맥스의 검색 기능(Ctrl-s)를 개선시킨 함수입니다. 이 세 종류의 기능을 보통 함께 
+
+     (use-package counsel
+       :ensure t)
+
+     (use-package ivy
+       :ensure t
+       :config
+       (setq ivy-use-virtual-buffers t)
+       (setq enable-recursive-minibuffers t)
+       ;; enable this if you want `swiper' to use it
+       ;; (setq search-default-mode #'char-fold-to-regexp)
+       (global-set-key (kbd "C-s") 'swiper)
+      ; (global-set-key (kbd "C-c C-r") 'ivy-resume)
+       (global-set-key (kbd "<f6>") 'ivy-resume)
+       (global-set-key (kbd "M-x") 'counsel-M-x)
+       (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+       (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+       (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+       (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+       (global-set-key (kbd "<f1> l") 'counsel-find-library)
+       (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+       (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+      ; (global-set-key (kbd "C-c g") 'counsel-git)
+      ; (global-set-key (kbd "C-c j") 'counsel-git-grep)
+      ; (global-set-key (kbd "C-c k") 'counsel-ag)
+      ; (global-set-key (kbd "C-x l") 'counsel-locate)
+      ; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+       (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+   #+end_src
+
+** elfeed
+   #+begin_src emacs-lisp :tangle yes
+     
+     #+begin_center
+;     (global-set-key (kbd "C-x w") 'elfeed)
+;     (require 'elfeed-org)
+;	      (elfeed-org)
+;      (setq rmh-elfeed-org-files (list "/Users/hykim/.emacs.d/elfeeds.org"))
+;     #+end_center
+;      (setq-default elfeed-search-filter "@2-week-ago +unread ")
+   #+end_src
+** magit
+   #+begin_src emacs-lisp :tangle yes
+;     (use-package magit
+;       :ensure t)
+   #+end_src
