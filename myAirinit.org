@@ -312,46 +312,12 @@
 	     "pdflatex -interaction nonstopmode -output-directory %o %f"
 	     "pdflatex -interaction nonstopmode -output-directory %o %f"))
 
-		    ;; '("xelatex -interaction nonstopmode -output-directory %o %f"
-		    ;; 	 "xelatex -interaction nonstopmode -output-directory %o %f"
-		    ;; 	 "xelatex -interaction nonstopmode -output-directory %o %f"))
+	    ;; '("xelatex -interaction nonstopmode -output-directory %o %f"
+	    ;; 	 "xelatex -interaction nonstopmode -output-directory %o %f"
+	    ;; 	 "xelatex -interaction nonstopmode -output-directory %o %f"))
       ;;from https://www.geneatcg.com/emacs-org-mode-export-to-pdf   
 	  (unless (boundp 'org-latex-classes)
 	   (setq org-latex-classes nil))
-
-     (add-to-list 'org-latex-classes
-		      '("under9"
-			"\\documentclass[a4paper,12pt]{oblivoir}
-	 \\usepackage[utf8]{inputenc}
-	 \\usepackage[T1]{fontenc}
-	 \\usepackage{fixltx2e}
-	 \\usepackage{graphicx}
-	 \\usepackage{longtable}
-	 \\usepackage{float}
-	 \\usepackage{wrapfig}
-	 \\usepackage{rotating}
-	 \\usepackage[normalem]{ulem}
-	 \\usepackage{amsmath}
-	 \\usepackage{textcomp}
-	 \\usepackage{marvosym}
-	 \\usepackage{wasysym}
-	 \\usepackage{amssymb}
-	 \\usepackage{hyperref}
-	 \\usepackage{mathpazo}
-	 \\usepackage{color}
-	 \\usepackage{enumerate}
-	 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
-	 \\tolerance=1000
-	       [NO-DEFAULT-PACKAGES]
-	       [PACKAGES]
-	       [EXTRA]
-	 \\linespread{1.6}
-	 \\hypersetup{pdfborder=0 0 0}"
-			("\\chapter{%s}" . "\\chapter*{%s}")
-			("\\section{%s}" . "\\section*{%s}")
-			("\\subsection{%s}" . "\\subsection*{%s}")
-			("\\paragraph{%s}" . "\\paragraph*{%s}")
-			("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 	 (add-to-list 'org-latex-classes
 		      '("ethz"
@@ -471,7 +437,8 @@
 ;       :defer t
 ;       :hook (org-load-hook . org-pdftools-setup-link))
     #+end_srcy
-*** for PPT
+
+*** for Slide
    #+begin_src emacs-lisp :tangle yes
      (use-package org-tree-slide
 	:custom
