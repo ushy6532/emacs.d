@@ -11,16 +11,16 @@
    #+end_src
 ** 갱신
    #+begin_src emacs-lisp :tangle yes
-     ;; 구 버전 패키지를 저장하지 않습니다.
+     ;; 구 버전 패키지 저장않게
      (unless (boundp 'package-pinned-packages)
        (setq package-pinned-packages ()))
 
-     ;; 설치 여부를 확인하고 없을 경우 설치합니다.
+     ;; 설치 여부 확인, 없을 경우 설치
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
 
-     ;; 에러가 발생할 경우 elpa 폴더를 제거하고 처음부터 다시 설치합니다.
+     ;; 에러가 발생할 경우 elpa 폴더 제거 후 새로 설치
      (eval-when-compile
        (condition-case nil
 	   (require 'use-package)
@@ -31,14 +31,14 @@
 	   (package-install 'use-package)
 	   (require 'use-package))))
 
-     ;; 로딩 속도가 느린 패키지는 *message* 버퍼에 표시합니다. 
+     ;; 로딩 속도가 느린 패키지는 *message* 버퍼에 표시 
      ;(setq use-package-verbose t) 
-     ;; use-package에서 불러오는 패키지가 설치되었는지 항상 확인하고, 설치되어 있지 않으면 자동으로 다운받아 설치합니다.
+     ;; use-package에서 불러오는 패키지가 설치 여부 확인. 설치되어 있지 않으면 자동으로 다운받아 설치
      (setq use-package-always-ensure t)
 
      ;; auto package UPDATE
      (use-package auto-package-update
-     ;use-package는 패키지를 설치하고 로딩하지만, 자동으로 업데이트하지는 않. 이를 위해서 auto-package-update.el을 설치합니다.
+     ;use-package는 패키지를 설치하고 로딩하지만, 자동으로 업데이트 않음. 이를 위해 auto-package-update.el 설치
        :config
        ;; 패키지의 업데이트가 존재할 경우 자동으로 업데이트를 진행합니다.
        (auto-package-update-maybe)
@@ -59,27 +59,28 @@
 
    #+end_src
 * Korean. LANG
-** 한글 설정
+** Korean hangul
   #+begin_src emacs-lisp :tangle yes
-    ;; Emacs는 기본으로 CJK (한중일) 문자를 인코딩하지만, 유니코드 환경에서 문제 발생. 이 옵션 꺼줌
-    ; (setq utf-translate-cjk-mode nil)
-    ;; LANG - eshell locale
-     (setenv "LANG" "ko_KR.UTF-8")
+	;; Emacs는 기본으로 CJK (한중일) 문자를 인코딩하지만, 유니코드 환경에서 문제 발생. 이 옵션 꺼줌
+	; (setq utf-translate-cjk-mode nil)
+	;; LANG - eshell locale
+	 (setenv "LANG" "ko_KR.UTF-8")
 
-     ;; UTF-8 설정 모음
-     ;(set-language-environment 'utf-8)
-     (setq locale-coding-system 'utf-8)
-     (set-default-coding-systems 'utf-8)
-     (set-terminal-coding-system 'utf-8)
-
-    ;; Set default font
-    (set-face-attribute 'default nil
-			:family "D2coding"
-			:foundry "SAND"
-			:slant 'normal
-			:weight 'normal
-			:height 125
-			:width 'normal)
+	 ;; UTF-8 설정 모음
+	 ;(set-language-environment 'utf-8)
+	 (setq locale-coding-system 'utf-8)
+	 (set-default-coding-systems 'utf-8)
+	 (set-terminal-coding-system 'utf-8)
+  #+end_src
+** default Fonts  
+   #+begin_src emacs-lisp :tangle yes
+     (set-face-attribute 'default nil
+				 :family "D2coding"
+				 :foundry "SAND"
+				 :slant 'normal
+				 :weight 'normal
+				 :height 125
+				 :width 'normal)
 
   #+end_src
 ** Keyboard
@@ -111,7 +112,7 @@
     ;(setq-default cursor-type 'bar)
     ;(setq-default cursor-type 'hbar)
 
-    ;Window title 설정
+    ;Window title 
     (setq frame-title-format "dole's Emacs - %b")
     (setq icon-title-format "Emacs - %b")
 
@@ -156,11 +157,16 @@
     ;;최근 파일 접근
     (require 'recentf)
     (recentf-mode 1)
-    (setq recentf-max-menu-items 10) ;최근 파일 목록수
+    (setq recentf-max-menu-items 10)
 
     #+end_src
 ** theme
-   #+begin_src emacs-lisp :tangle yes
+*** default theme
+    #+begin_src emacs-lisp :tangle yes
+      (load-theme 'material t)
+    #+end_src
+*** custom theme
+    #+begin_src emacs-lisp :tangle yes
       (use-package material-theme
        ;material
        :ensure t
@@ -180,16 +186,13 @@
    #+end_src
 *** Switch themes
     #+begin_src emacs-lisp :tangle yes
-      ;; loading default theme
-      (load-theme 'material t)
-
       ;; https://github.com/nkicg6/emacs-config/blob/master/config.org
       (defun switch-theme (theme)
 	"Disables any currently active themes and loads THEME."
 	;; This interactive call is taken from `load-theme'
 	(interactive
 	 (list
-	  (intern (completing-read "Choice custum theme: "
+	  (intern (completing-read "Choice theme: "
 				   (mapc 'symbol-name
 					 (custom-available-themes))))))
 	(let ((enabled-themes custom-enabled-themes))
@@ -208,7 +211,7 @@
     ;시작 모드를 ORGMode로 시작하기
      (setq initial-major-mode 'org-mode)
    #+end_src
-** 글로벌 키
+** Global key
    #+begin_src emacs-lisp :tangle yes
       ;; org capture
       (global-set-key (kbd "C-c c") 'org-capture)
@@ -217,9 +220,6 @@
      ;c-c t 'switch themes
    #+end_src
 * Mode, 확장
-** for Pdftools
-   #+begin_src emacs-lisp :tangle yes
-   #+end_src
 ** Org-mode
 *** org
     #+begin_src emacs-lisp :tangle yes
@@ -257,7 +257,7 @@
 	 '((sequence "TODO" "ING" "WAIT" "DONE")))
     #+end_src
     
-*** for agenda
+*** Agenda
     #+begin_src emacs-lisp :tangle yes
     ;; for agenda
     ; C-c [ - 아젠다 파일 목록에 문서 추가
@@ -276,7 +276,7 @@
 
     #+end_src    
 
-*** for capture
+*** Capture
     #+begin_src emacs-lisp :tangle yes
       ; global key: C-c c
       (setq org-capture-templates
@@ -303,7 +303,7 @@
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
     #+end_src
-*** for export PDF,markdown
+*** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
      ;; for export PDF
      (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
