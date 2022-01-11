@@ -41,37 +41,35 @@
      ;use-package는 패키지를 설치하고 로딩하지만, 자동 업데이트 않음.
 이를 위해 auto-package-update.el 설치
        :config
-       ;; 패키지의 업데이트가 존재할 경우 자동으로 업데이트를 진행합니다.
+       ;; 패키지의 업데이트가 존재할 경우 자동으로 업데이트 진행
        (auto-package-update-maybe)
        ;; 1달(4주)에 한번 빈도로 자동 업데이트를 진행
        (setq auto-package-update-interval 28)
-       ;; 업데이트를 진행하기 전에 진행 여부를 물어봅니다.
+       ;; 업데이트를 진행 여부 확인
        (setq auto-package-update-prompt-before-update t)
-       ;; 업데이트 진행 후 이전 버전 파일을 삭제합니다.
+       ;; 업데이트 이전 버전 파일 삭제
        (setq auto-package-update-delete-old-versions t))
 
      (setq
-     ;Emacs는 패키지 설치할 때 관련 정보를 init.el에 기록. 이를 방지
+     ;Emacs는 패키지 설치할 때 관련 정보를 init.el에 기록.방지
       package--init-file-ensured t
-     ;; org 관련 프로세스가 자동으로 종료될 수 있도록 합니다.
+     ;; org 관련 프로세스가 자동 종료되게.
       kill-buffer-query-functions nil
-     ;; 오래된 버전의 파일을 로드하지 않고 재컴파일하도록 합니다.
+     ;; 오래된 버전 파일 로드않고 재컴파일
       load-prefer-newer t)
 
    #+end_src
 * Korean. LANG
 ** Korean hangul
   #+begin_src emacs-lisp :tangle yes
-	;; Emacs는 기본으로 CJK (한중일) 문자를 인코딩, 유니코드에서 문제. 옵션 꺼줌
-	; (setq utf-translate-cjk-mode nil)
-	;; LANG - eshell locale
-	 (setenv "LANG" "ko_KR.UTF-8")
+    ;; LANG - eshell locale
+    (setenv "LANG" "ko_KR.UTF-8")
 
-	 ;; UTF-8 설정 모음
-	 ;(set-language-environment 'utf-8)
-	 (setq locale-coding-system 'utf-8)
-	 (set-default-coding-systems 'utf-8)
-	 (set-terminal-coding-system 'utf-8)
+    ;; UTF-8 설정 모음
+     ;(set-language-environment 'utf-8)
+     (setq locale-coding-system 'utf-8)
+     (set-default-coding-systems 'utf-8)
+     (set-terminal-coding-system 'utf-8)
   #+end_src
 ** default Fonts
    #+begin_src emacs-lisp :tangle yes
@@ -93,12 +91,7 @@
    #+end_src
 ** korean Calendar
    #+begin_src emacs-lisp :tangle yes
-     ;; for Korean Calendar
-     ;(add-to-list `load-path (expand-file-name "~/.emacs.d/cal-korea-x"))
-     ;(require 'cal-korea-x)
-     ;(setq holiday-general-holidays cal-korea-x-korean-holidays)
-
-     ;월, 일 한글화
+     ;;for korean
      ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
      (setq calendar-week-start-day 1   ;start 0 일요일, 1 토요일
 	   calendar-day-name-array ["일" "월" "화" "수" "목" "금" "토"]
@@ -133,7 +126,7 @@
     ;도구 모음 숨기기
     (tool-bar-mode 0)
 
-    ;;GUI환경에서 시작시 창화면 최대화
+    ;;GUI환경 시작시 창화면 최대화
     (add-to-list 'default-frame-alist'(fullscreen . maximized))
 
     ; 라인 표시하기
@@ -233,11 +226,7 @@
       (use-package org
 ;	:ensure org-plus-contrib     ;for org-contacts
 	:config
-	;; 기본적으로 org-mode는 shift + 방향키로 블록 선택하는 것을 막아놓고 있음.
-	;; 이를 옵션을 통해 해제해 줍니다.
-      ;  (setq org-support-shift-select t) 
-      
-	;; org-mode 문서를, 항목의 깊이에 따라 들여쓰기. 단, 항목의 star는 숨기지 않음
+   ;; org문서,항목의 깊이에 따라 들여쓰기. 단, 항목의 star는 숨기지 않음
 	(progn
 	  (setq org-startup-indented nil)
 	  (setq org-hide-leading-stars nil)
@@ -245,7 +234,6 @@
       
 	  ;(setq org-image-actual-width nil)        ;image fulscreen hebit
 	  ;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
-      
       
 	;; 할 일 설정하기 Todo
 	; C-c C-v - 현재 문서에 있는 할 일 목록 보기
@@ -270,20 +258,18 @@
 	      (lambda ()
 	      (local-set-key (kbd "C-c a") 'org-agenda)))
        ;      (global-set-key (kbd "C-c a") 'org-agenda)))
-
     #+end_src    
 
 *** Capture
     #+begin_src emacs-lisp :tangle yes
-      ; global key: C-c c
-      (setq org-capture-templates
-       '(
+     ; global key: C-c c
+     (setq org-capture-templates
+      '(
 	  ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
 	   "* %?\n insert on: %U %i")
 	  ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
 	   "** 이름: %?\n  - 회사: \n  - 연락: \n  - 메모: \n   %t"))
        )
-
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
@@ -342,42 +328,6 @@
 			("\\paragraph{%s}" . "\\paragraph*{%s}")
 			("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-
-	 (add-to-list 'org-latex-classes
-		      '("article"
-			"\\documentclass[11pt,a4paper]{article}
-	 \\usepackage[utf8]{inputenc}
-	 \\usepackage[T1]{fontenc}
-	 \\usepackage{fixltx2e}
-	 \\usepackage{graphicx}
-	 \\usepackage{longtable}
-	 \\usepackage{float}
-	 \\usepackage{wrapfig}
-	 \\usepackage{rotating}
-	 \\usepackage[normalem]{ulem}
-	 \\usepackage{amsmath}
-	 \\usepackage{textcomp}
-	 \\usepackage{marvosym}
-	 \\usepackage{wasysym}
-	 \\usepackage{amssymb}
-	 \\usepackage{hyperref}
-	 \\usepackage{mathpazo}
-	 \\usepackage{color}
-	 \\usepackage{enumerate}
-	 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
-	 \\tolerance=1000
-	       [NO-DEFAULT-PACKAGES]
-	       [PACKAGES]
-	       [EXTRA]
-	 \\linespread{1.6}
-	 \\hypersetup{pdfborder=0 0 0}"
-			("\\section{%s}" . "\\section*{%s}")
-			("\\subsection{%s}" . "\\subsection*{%s}")
-			("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-			("\\paragraph{%s}" . "\\paragraph*{%s}")
-			("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-
 	 (add-to-list 'org-latex-classes '("ebook"
 					   "\\documentclass[11pt, oneside]{memoir}
 	 \\setstocksize{9in}{6in}
@@ -414,9 +364,9 @@
 		      ("\\paragraph{%s}" . "\\paragraph*{%s}")
 		      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-     ;; for export markdown
-	      (eval-after-load "org"
-	       '(require 'ox-md nil t))
+   ;; for export markdown
+      (eval-after-load "org"
+       '(require 'ox-md nil t))
    #+end_src
    
 *** for Slide
@@ -477,13 +427,13 @@
 ** Cua-mode
    #+begin_src emacs-lisp :tangle yes
      ;; cua-mode
-     ;; 잘라내기,붙여넣기,CTR+C,V를 활성화.즉,윈도우처럼 사용가능
+     ;; CTR+C,V ; for win user
      (cua-mode)
    #+end_src
 ** Guide-key
    #+begin_src emacs-lisp :tangle yes
      ;; guide-key
-     ;복잡한 키 바인딩을 특정 조합의 키를 누르면 그에 해당하는 바인딩 목록 표시
+     ;복잡한 키 바인딩을 특정 조합의 키를 누르면 바인딩 목록 표시
      ;(use-package guide-key
      ;  :diminish guide-key-mode
      ;  :config
@@ -494,7 +444,7 @@
 ** Joplin
    #+begin_src emacs-lisp :tangle yes
    ;; sync for Joplin external editor
-   ;; emacs가 원본 파일을 계속 편집하는 동안 내용을 새 파일에 복사하여 백업 파일을 강제로 만듬
+   ;; emacs가 원본 파일을 계속 편집하는 동안 내용을 새 파일에 복사,백업 파일  만듬
    ;; markdown-mode일 경우 : Bug
     ;;(add-hook 'markdown-mode-hook
     ;;      '(setq backup-by-copying t))
@@ -502,7 +452,7 @@
    #+end_src
 ** ivy,counsel,swiper
    #+begin_src emacs-lisp :tangle yes
-   ;; Ivy는 컨텍스트와 상관없이 이맥스에서 자동완성을 도와주는 도구
+   ;; Ivy는 자동완성을 도와주는 도구
    ;; Ivy는 Ivy를 사용해 이맥스의 기본 기능을 개선시킨 함수들을 제공하는데 이를 Counsel이라 함.
    ;; Swiper는 이맥스의 검색 기능(Ctrl-s)를 개선시킨 함수입니다. 이 세 종류의 기능을 보통 함께 
 
@@ -536,7 +486,6 @@
    #+end_src
 ** Elfeed
    #+begin_src emacs-lisp :tangle yes
-  
      #+begin_center
 ;     (global-set-key (kbd "C-x w") 'elfeed)
 ;     (require 'elfeed-org)
