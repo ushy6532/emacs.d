@@ -79,7 +79,7 @@
 				 :foundry "SAND"
 				 :slant 'normal
 				 :weight 'normal
-				 :height 125
+				 :height 130
 				 :width 'normal)
 
   #+end_src
@@ -104,6 +104,13 @@
 	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
 	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
    #+end_src
+** korean holidays
+   #+begin_src emacs-lisp :tangle yes
+     ;;https://m.blog.naver.com/jodi999/221008996220
+
+     (setq calendar-holidays korean-holidays)
+     ;(setq calendar-holidays (append calendar-holidays korean-holidays)
+   #+end_src 
 * Window, Global Key
 ** Window
   #+begin_src emacs-lisp :tangle yes
