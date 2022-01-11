@@ -20,7 +20,7 @@
        (package-refresh-contents)
        (package-install 'use-package))
 
-     ;; 에러가 발생할 경우 elpa 폴더 제거 후 새로 설치
+     ;; 에러가 발생할 경우 elpa 폴더 제거, 새로 설치
      (eval-when-compile
        (condition-case nil
 	   (require 'use-package)
@@ -33,16 +33,17 @@
 
      ;; 로딩 속도가 느린 패키지는 *message* 버퍼에 표시 
      ;(setq use-package-verbose t) 
-     ;; use-package에서 불러오는 패키지가 설치 여부 확인. 설치되어 있지 않으면 자동으로 다운받아 설치
+     ;; use-package에서 불러오는 패키지가 설치 여부 확인. 미 설치 자동설치
      (setq use-package-always-ensure t)
 
      ;; auto package UPDATE
      (use-package auto-package-update
-     ;use-package는 패키지를 설치하고 로딩하지만, 자동으로 업데이트 않음. 이를 위해 auto-package-update.el 설치
+     ;use-package는 패키지를 설치하고 로딩하지만, 자동 업데이트 않음.
+이를 위해 auto-package-update.el 설치
        :config
        ;; 패키지의 업데이트가 존재할 경우 자동으로 업데이트를 진행합니다.
        (auto-package-update-maybe)
-       ;; 1달(4주)에 한번 빈도로 자동 업데이트를 진행합니다.
+       ;; 1달(4주)에 한번 빈도로 자동 업데이트를 진행
        (setq auto-package-update-interval 28)
        ;; 업데이트를 진행하기 전에 진행 여부를 물어봅니다.
        (setq auto-package-update-prompt-before-update t)
@@ -50,7 +51,7 @@
        (setq auto-package-update-delete-old-versions t))
 
      (setq
-     ;기본적으로 Emacs는 패키지를 설치할 때 관련 정보를 init.el에 기록합니다. 이를 방지하도록 설정합니다.
+     ;Emacs는 패키지 설치할 때 관련 정보를 init.el에 기록. 이를 방지
       package--init-file-ensured t
      ;; org 관련 프로세스가 자동으로 종료될 수 있도록 합니다.
       kill-buffer-query-functions nil
@@ -61,7 +62,7 @@
 * Korean. LANG
 ** Korean hangul
   #+begin_src emacs-lisp :tangle yes
-	;; Emacs는 기본으로 CJK (한중일) 문자를 인코딩하지만, 유니코드 환경에서 문제 발생. 이 옵션 꺼줌
+	;; Emacs는 기본으로 CJK (한중일) 문자를 인코딩, 유니코드에서 문제. 옵션 꺼줌
 	; (setq utf-translate-cjk-mode nil)
 	;; LANG - eshell locale
 	 (setenv "LANG" "ko_KR.UTF-8")
@@ -72,7 +73,7 @@
 	 (set-default-coding-systems 'utf-8)
 	 (set-terminal-coding-system 'utf-8)
   #+end_src
-** default Fonts  
+** default Fonts
    #+begin_src emacs-lisp :tangle yes
      (set-face-attribute 'default nil
 				 :family "D2coding"
@@ -85,9 +86,9 @@
   #+end_src
 ** Keyboard
    #+begin_src emacs-lisp :tangle yes
-    ;; Keyboard 2벌식 지정
+    ;; Keyboard 2벌식
     (setq default-input-method "korean-hangul")
-     ;; S+Space 한글전환
+     ;; S+Space
      (global-set-key (kbd "S-SPC") 'toggle-input-method)
    #+end_src
 ** korean Calendar
@@ -107,14 +108,13 @@
 ** korean holidays
    #+begin_src emacs-lisp :tangle yes
      ;;https://m.blog.naver.com/jodi999/221008996220
-
      (setq calendar-holidays korean-holidays)
      ;(setq calendar-holidays (append calendar-holidays korean-holidays)
    #+end_src 
 * Window, Global Key
 ** Window
   #+begin_src emacs-lisp :tangle yes
-    ; 커서 모양
+    ; cursor
     (setq-default cursor-type 'box)
     ;(setq-default cursor-type 'bar)
     ;(setq-default cursor-type 'hbar)
@@ -148,7 +148,7 @@
     ;GUI 화경에서 줄 간격 조절
     (setq-default line-spacing 6)
 
-    ;파일이 수정되었을 때 자동으로 다시 읽어드리도록 하는 설정
+    ;파일이 수정되었을 때 자동으로 다시 읽어드리도록
     ;(global-auto-revert-mode t)
 
     ;찾기 기능에서 하이라이트 설정
@@ -215,7 +215,7 @@
     #+end_src
 ** Initial mode
    #+begin_src emacs-lisp :tangle yes
-    ;시작 모드를 ORGMode로 시작하기
+    ;시작 모드를 ORGMode로
      (setq initial-major-mode 'org-mode)
    #+end_src
 ** Global key
@@ -237,7 +237,7 @@
 	;; 이를 옵션을 통해 해제해 줍니다.
       ;  (setq org-support-shift-select t) 
       
-	;; org-mode 문서를, 항목의 깊이에 따라 들여쓰기하도록 설정. 단, 항목의 star는 숨기지 않음
+	;; org-mode 문서를, 항목의 깊이에 따라 들여쓰기. 단, 항목의 star는 숨기지 않음
 	(progn
 	  (setq org-startup-indented nil)
 	  (setq org-hide-leading-stars nil)
@@ -287,12 +287,6 @@
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
-    ;; org-bullets
-	       ;     (use-package org-bullets
-	       ;	 :ensure t
-	       ;	 :config
-	       ;	 (add-hook 'org-mode-hook #'org-bullets-mode))
-
    ;; org-superstar  ;; improved version of org-bullets
   (use-package org-superstar
 	    :ensure t
@@ -458,7 +452,6 @@
 	 :ensure t
 	 :config
        (which-key-mode))
-
    #+end_src
 ** Ace-window
    #+begin_src emacs-lisp :tangle yes
@@ -468,7 +461,6 @@
      ;(global-set-key [M-right] 'windmove-right)        ; move to right window
      ;(global-set-key [M-up] 'windmove-up)              ; move to upper window
      ;(global-set-key [M-down] 'windmove-down)          ; move to lower window
-
    #+end_src
 ** Markdown-mode
    #+begin_src emacs-lisp :tangle yes
@@ -480,8 +472,7 @@
 	      ("\\.md\\'" . markdown-mode)
 	      ("\\.markdown\\'" . markdown-mode))
        )
-     ;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진 multimarkdown
-
+     ;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
    #+end_src
 ** Cua-mode
    #+begin_src emacs-lisp :tangle yes
@@ -499,9 +490,7 @@
      ;  (progn
      ;  (setq guide-key/guide-key-sequence '("C-x r" "C-x 4"))
      ;  (guide-key-mode 1)))  ; Enable guide-key-mode
-
    #+end_src
-
 ** Joplin
    #+begin_src emacs-lisp :tangle yes
    ;; sync for Joplin external editor
@@ -511,7 +500,6 @@
     ;;      '(setq backup-by-copying t))
    ;(setq backup-by-copying t)
    #+end_src
-
 ** ivy,counsel,swiper
    #+begin_src emacs-lisp :tangle yes
    ;; Ivy는 컨텍스트와 상관없이 이맥스에서 자동완성을 도와주는 도구
@@ -546,10 +534,9 @@
       ; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
        (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
    #+end_src
-
 ** Elfeed
    #+begin_src emacs-lisp :tangle yes
-     
+  
      #+begin_center
 ;     (global-set-key (kbd "C-x w") 'elfeed)
 ;     (require 'elfeed-org)
