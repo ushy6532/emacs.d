@@ -219,7 +219,7 @@
      ;c-x w 'news
      ;c-c t 'switch themes
    #+end_src
-* Mode, 확장
+* emacs-Mode
 ** Org-mode
 *** org
     #+begin_src emacs-lisp :tangle yes
@@ -240,8 +240,7 @@
 	; C-c / t - 현재 할 일 항목외 모두 접기
 	(setq org-todo-keywords
 	 '((sequence "TODO" "ING" "WAIT" "DONE")))
-    #+end_src
-    
+    #+end_src    
 *** Agenda
     #+begin_src emacs-lisp :tangle yes
     ;; for agenda
@@ -259,7 +258,6 @@
 	      (local-set-key (kbd "C-c a") 'org-agenda)))
        ;      (global-set-key (kbd "C-c a") 'org-agenda)))
     #+end_src    
-
 *** Capture
     #+begin_src emacs-lisp :tangle yes
     ; global key: C-c c
@@ -289,78 +287,78 @@
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"))
 
        ;;from https://www.geneatcg.com/emacs-org-mode-export-to-pdf   
-	(unless (boundp 'org-latex-classes)
-	  (setq org-latex-classes nil))
-	   (add-to-list 'org-latex-classes
-			'("ethz"
-			  "\\documentclass[a4paper,12pt,titlepage]{oblivoir}
-	   \\usepackage[utf8]{inputenc}
-	   \\usepackage[T1]{fontenc}
-	   \\usepackage{fixltx2e}
-	   \\usepackage{graphicx}
-	   \\usepackage{longtable}
-	   \\usepackage{float}
-	   \\usepackage{wrapfig}
-	   \\usepackage{rotating}
-	   \\usepackage[normalem]{ulem}
-	   \\usepackage{amsmath}
-	   \\usepackage{textcomp}
-	   \\usepackage{marvosym}
-	   \\usepackage{wasysym}
-	   \\usepackage{amssymb}
-	   \\usepackage{hyperref}
-	   \\usepackage{mathpazo}
-	   \\usepackage{color}
-	   \\usepackage{enumerate}
-	   \\definecolor{bg}{rgb}{0.95,0.95,0.95}
-	   \\tolerance=1000
-		 [NO-DEFAULT-PACKAGES]
-		 [PACKAGES]
-		 [EXTRA]
-	   \\linespread{1.6}
-	   \\hypersetup{pdfborder=0 0 0}"
-			  ("\\chapter{%s}" . "\\chapter*{%s}")
-			  ("\\section{%s}" . "\\section*{%s}")
-			  ("\\subsection{%s}" . "\\subsection*{%s}")
-			  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-			  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-			  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+	;; (unless (boundp 'org-latex-classes)
+	;;   (setq org-latex-classes nil))
+	;;    (add-to-list 'org-latex-classes
+	;; 		   '("ethz"
+	;; 		     "\\documentclass[a4paper,12pt,titlepage]{oblivoir}
+	;;    \\usepackage[utf8]{inputenc}
+	;;    \\usepackage[T1]{fontenc}
+	;;    \\usepackage{fixltx2e}
+	;;    \\usepackage{graphicx}
+	;;    \\usepackage{longtable}
+	;;    \\usepackage{float}
+	;;    \\usepackage{wrapfig}
+	;;    \\usepackage{rotating}
+	;;    \\usepackage[normalem]{ulem}
+	;;    \\usepackage{amsmath}
+	;;    \\usepackage{textcomp}
+	;;    \\usepackage{marvosym}
+	;;    \\usepackage{wasysym}
+	;;    \\usepackage{amssymb}
+	;;    \\usepackage{hyperref}
+	;;    \\usepackage{mathpazo}
+	;;    \\usepackage{color}
+	;;    \\usepackage{enumerate}
+	;;    \\definecolor{bg}{rgb}{0.95,0.95,0.95}
+	;;    \\tolerance=1000
+	;; 	    [NO-DEFAULT-PACKAGES]
+	;; 	    [PACKAGES]
+	;; 	    [EXTRA]
+	;;    \\linespread{1.6}
+	;;    \\hypersetup{pdfborder=0 0 0}"
+	;; 		     ("\\chapter{%s}" . "\\chapter*{%s}")
+	;; 		     ("\\section{%s}" . "\\section*{%s}")
+	;; 		     ("\\subsection{%s}" . "\\subsection*{%s}")
+	;; 		     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	;; 		     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	;; 		     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-	   (add-to-list 'org-latex-classes '("ebook"
-					     "\\documentclass[11pt, oneside]{memoir}
-	   \\setstocksize{9in}{6in}
-	   \\settrimmedsize{\\stockheight}{\\stockwidth}{*}
-	   \\setlrmarginsandblock{2cm}{2cm}{*} % Left and right margin
-	   \\setulmarginsandblock{2cm}{2cm}{*} % Upper and lower margin
-	   \\checkandfixthelayout
-	   % Much more laTeX code omitted
-	   "
-					     ("\\chapter{%s}" . "\\chapter*{%s}")
-					     ("\\section{%s}" . "\\section*{%s}")
-					     ("\\subsection{%s}" . "\\subsection*{%s}")))
+	;;    (add-to-list 'org-latex-classes '("ebook"
+	;; 					"\\documentclass[11pt, oneside]{memoir}
+	;;    \\setstocksize{9in}{6in}
+	;;    \\settrimmedsize{\\stockheight}{\\stockwidth}{*}
+	;;    \\setlrmarginsandblock{2cm}{2cm}{*} % Left and right margin
+	;;    \\setulmarginsandblock{2cm}{2cm}{*} % Upper and lower margin
+	;;    \\checkandfixthelayout
+	;;    % Much more laTeX code omitted
+	;;    "
+	;; 					("\\chapter{%s}" . "\\chapter*{%s}")
+	;; 					("\\section{%s}" . "\\section*{%s}")
+	;; 					("\\subsection{%s}" . "\\subsection*{%s}")))
 
        ;; from https://github.com/clockoon/my-emacs-setting/blob/master/config.org     
        ;; ** <<Dissertation>>
 	 (add-to-list 'org-latex-classes
-		      '("dissertation"
-			"\\documentclass[12pt,a4paper]{oblivoir}"
-			("\\chapter{%s}" . "\\chapter*{%s}")
-			("\\section{%s}" . "\\section*{%s}")
-			("\\subsection{%s}" . "\\subsection*{%s}")
-			("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+		      ;; '("dissertation"
+		      ;;   "\\documentclass[12pt,a4paper]{oblivoir}"
+		      ;;   ("\\chapter{%s}" . "\\chapter*{%s}")
+		      ;;   ("\\section{%s}" . "\\section*{%s}")
+		      ;;   ("\\subsection{%s}" . "\\subsection*{%s}")
+		      ;;   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
        ;; ** <<APS journals>>
        ;; ref: https://github.com/jkitchin/jmax
-	 (add-to-list 'org-latex-classes 
-		      '("revtex4-1"
-			"\\documentclass{revtex4-1}
-		    [NO-DEFAULT-PACKAGES]
-		    [PACKAGES]
-		    [EXTRA]"
-			("\\section{%s}" . "\\section*{%s}")
-			("\\subsection{%s}" . "\\subsection*{%s}")
-			("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-			("\\paragraph{%s}" . "\\paragraph*{%s}")
-			("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+	 ;; (add-to-list 'org-latex-classes 
+	 ;; 		 '("revtex4-1"
+	 ;; 		   "\\documentclass{revtex4-1}
+	 ;; 	       [NO-DEFAULT-PACKAGES]
+	 ;; 	       [PACKAGES]
+	 ;; 	       [EXTRA]"
+	 ;; 		   ("\\section{%s}" . "\\section*{%s}")
+	 ;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
+	 ;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	 ;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	 ;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
      ;; for export markdown
 	(eval-after-load "org"
@@ -439,7 +437,6 @@
    ;; Ivy는 자동완성을 도와주는 도구
    ;; Ivy는 Ivy를 사용해 이맥스의 기본 기능을 개선시킨 함수들을 제공하는데 이를 Counsel이라 함.
    ;; Swiper는 이맥스의 검색 기능(Ctrl-s)를 개선시킨 함수입니다. 이 세 종류의 기능을 보통 함께 
-
      (use-package counsel
        :ensure t)
 
