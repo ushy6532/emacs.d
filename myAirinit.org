@@ -119,26 +119,29 @@
     (setq inhibit-startup-message t)
     (setq initial-scratch-message "")
 
-    ;상단 메뉴 숨기기0, 보이기 1
+    ;disable menubar
     (menu-bar-mode 1)
 
-    ;도구 모음 숨기기
+    ;disble toolbar
     (tool-bar-mode 0)
 
-    ;;GUI환경 시작시 창화면 최대화
-    (add-to-list 'default-frame-alist'(fullscreen . maximized))
+    ;disable scrollbar
+    (toggle-scroll-bar -1) 
 
+    ;;GUI환경 시작시 창화면 최대화
+   ; (add-to-list 'default-frame-alist'(fullscreen . maximized))
+    (set-frame-parameter nil 'fullscreen 'fullboth)
     ; 라인 표시하기
     (global-linum-mode 1)
 
-    ;; 선택영역 표시
+    ;;show mark
     (transient-mark-mode t)
 
     ;; wordrap
     (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
     ;GUI 화경에서 줄 간격 조절
-    (setq-default line-spacing 6)
+    (setq-default line-spacing 8)
 
     ;파일이 수정되었을 때 자동으로 다시 읽어드리도록
     ;(global-auto-revert-mode t)
