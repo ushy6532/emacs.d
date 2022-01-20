@@ -2,11 +2,11 @@
 * Packages
 ** Source list
    #+begin_src emacs-lisp :tangle yes
-    (require 'package)
+     (require 'package)
      (setq package-archives
-	   '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
-	     ("melpa" . "https://melpa.org/packages/")
-	     ("gnu" . "https://elpa.gnu.org/packages/")))
+      '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
+	      ("melpa" . "https://melpa.org/packages/")
+	      ("gnu" . "https://elpa.gnu.org/packages/")))
      (package-initialize)
    #+end_src
 ** Package refresh
@@ -38,16 +38,16 @@
 
      ;; auto package UPDATE
      (use-package auto-package-update
-     ;use-package는 패키지를 설치하고 로딩하지만, 자동 업데이트 않음.
-이를 위해 auto-package-update.el 설치
+	 ;use-package는 패키지를 설치하고 로딩하지만, 자동 업데이트 않음.
+	 ;; 이를 위해 auto-package-update.el 설치
        :config
-       ;; 패키지의 업데이트가 존재할 경우 자동으로 업데이트 진행
+       ;; 자동으로 업데이트 진행
        (auto-package-update-maybe)
-       ;; 1달(4주)에 한번 빈도로 자동 업데이트를 진행
+       ;; 1달(4주)에 한번 빈도로 자동 업데이트
        (setq auto-package-update-interval 28)
-       ;; 업데이트를 진행 여부 확인
+       ;; 업데이트 진행 여부 확인
        (setq auto-package-update-prompt-before-update t)
-       ;; 업데이트 이전 버전 파일 삭제
+       ;; 이전 버전 파일 삭제
        (setq auto-package-update-delete-old-versions t))
 
      (setq
@@ -57,7 +57,6 @@
       kill-buffer-query-functions nil
      ;; 오래된 버전 파일 로드않고 재컴파일
       load-prefer-newer t)
-
    #+end_src
 * Korean. LANG
 ** Korean hangul
@@ -65,7 +64,7 @@
     ;; LANG - eshell locale
     (setenv "LANG" "ko_KR.UTF-8")
 
-    ;; UTF-8 설정 모음
+    ;; UTF-8 설정
      ;(set-language-environment 'utf-8)
      (setq locale-coding-system 'utf-8)
      (set-default-coding-systems 'utf-8)
@@ -87,13 +86,13 @@
     ;; Keyboard 2벌식
     (setq default-input-method "korean-hangul")
      ;; S+Space
-     (global-set-key (kbd "S-SPC") 'toggle-input-method)
+    (global-set-key (kbd "S-SPC") 'toggle-input-method)
    #+end_src
 ** korean Calendar
    #+begin_src emacs-lisp :tangle yes
      ;;for korean
      ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
-     (setq calendar-week-start-day 1   ;start 0 일요일, 1 토요일
+     (setq calendar-week-start-day 1 
 	   calendar-day-name-array ["일" "월" "화" "수" "목" "금" "토"]
 	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
 	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
@@ -220,11 +219,16 @@
      ;c-c t 'switch themes
    #+end_src
 * emacs-Mode
+** Cua-mode
+   #+begin_src emacs-lisp :tangle yes
+     ;; CTR+C,V ; for win user
+     (cua-mode)
+   #+end_src
 ** Org-mode
 *** org
     #+begin_src emacs-lisp :tangle yes
       (use-package org
-;	:ensure org-plus-contrib     ;for org-contacts
+   ;;	:ensure org-plus-contrib     ;for org-contacts
 	:config
    ;; org문서,항목의 깊이에 따라 들여쓰기. 단, 항목의 star는 숨기지 않음
 	(progn
@@ -256,11 +260,10 @@
     (add-hook 'org-mode-hook 
 	      (lambda ()
 	      (local-set-key (kbd "C-c a") 'org-agenda)))
-       ;      (global-set-key (kbd "C-c a") 'org-agenda)))
     #+end_src    
 *** Capture
     #+begin_src emacs-lisp :tangle yes
-    ; global key: C-c c
+    ;; global key: C-c c
    (setq org-capture-templates
     '(
 	  ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
@@ -271,7 +274,7 @@
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
-       ;; org-superstar  ;; improved version of org-bullets
+    ;; org-superstar  ;; improved version of org-bullets
     (use-package org-superstar
 	:ensure t
 	:config
@@ -279,86 +282,12 @@
     #+end_src
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
-       ;; for export PDF
-       (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
-       (setq org-latex-to-pdf-process
+     ;; for export PDF
+     (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
+     (setq org-latex-to-pdf-process
 	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"))
-
-       ;;from https://www.geneatcg.com/emacs-org-mode-export-to-pdf   
-	;; (unless (boundp 'org-latex-classes)
-	;;   (setq org-latex-classes nil))
-	;;    (add-to-list 'org-latex-classes
-	;; 		   '("ethz"
-	;; 		     "\\documentclass[a4paper,12pt,titlepage]{oblivoir}
-	;;    \\usepackage[utf8]{inputenc}
-	;;    \\usepackage[T1]{fontenc}
-	;;    \\usepackage{fixltx2e}
-	;;    \\usepackage{graphicx}
-	;;    \\usepackage{longtable}
-	;;    \\usepackage{float}
-	;;    \\usepackage{wrapfig}
-	;;    \\usepackage{rotating}
-	;;    \\usepackage[normalem]{ulem}
-	;;    \\usepackage{amsmath}
-	;;    \\usepackage{textcomp}
-	;;    \\usepackage{marvosym}
-	;;    \\usepackage{wasysym}
-	;;    \\usepackage{amssymb}
-	;;    \\usepackage{hyperref}
-	;;    \\usepackage{mathpazo}
-	;;    \\usepackage{color}
-	;;    \\usepackage{enumerate}
-	;;    \\definecolor{bg}{rgb}{0.95,0.95,0.95}
-	;;    \\tolerance=1000
-	;; 	    [NO-DEFAULT-PACKAGES]
-	;; 	    [PACKAGES]
-	;; 	    [EXTRA]
-	;;    \\linespread{1.6}
-	;;    \\hypersetup{pdfborder=0 0 0}"
-	;; 		     ("\\chapter{%s}" . "\\chapter*{%s}")
-	;; 		     ("\\section{%s}" . "\\section*{%s}")
-	;; 		     ("\\subsection{%s}" . "\\subsection*{%s}")
-	;; 		     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-	;; 		     ("\\paragraph{%s}" . "\\paragraph*{%s}")
-	;; 		     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-	;;    (add-to-list 'org-latex-classes '("ebook"
-	;; 					"\\documentclass[11pt, oneside]{memoir}
-	;;    \\setstocksize{9in}{6in}
-	;;    \\settrimmedsize{\\stockheight}{\\stockwidth}{*}
-	;;    \\setlrmarginsandblock{2cm}{2cm}{*} % Left and right margin
-	;;    \\setulmarginsandblock{2cm}{2cm}{*} % Upper and lower margin
-	;;    \\checkandfixthelayout
-	;;    % Much more laTeX code omitted
-	;;    "
-	;; 					("\\chapter{%s}" . "\\chapter*{%s}")
-	;; 					("\\section{%s}" . "\\section*{%s}")
-	;; 					("\\subsection{%s}" . "\\subsection*{%s}")))
-
-       ;; from https://github.com/clockoon/my-emacs-setting/blob/master/config.org     
-       ;; ** <<Dissertation>>
-	 (add-to-list 'org-latex-classes
-		      ;; '("dissertation"
-		      ;;   "\\documentclass[12pt,a4paper]{oblivoir}"
-		      ;;   ("\\chapter{%s}" . "\\chapter*{%s}")
-		      ;;   ("\\section{%s}" . "\\section*{%s}")
-		      ;;   ("\\subsection{%s}" . "\\subsection*{%s}")
-		      ;;   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-       ;; ** <<APS journals>>
-       ;; ref: https://github.com/jkitchin/jmax
-	 ;; (add-to-list 'org-latex-classes 
-	 ;; 		 '("revtex4-1"
-	 ;; 		   "\\documentclass{revtex4-1}
-	 ;; 	       [NO-DEFAULT-PACKAGES]
-	 ;; 	       [PACKAGES]
-	 ;; 	       [EXTRA]"
-	 ;; 		   ("\\section{%s}" . "\\section*{%s}")
-	 ;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
-	 ;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-	 ;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-	 ;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
      ;; for export markdown
 	(eval-after-load "org"
@@ -372,12 +301,16 @@
     #+end_src
 ** Yasnippet
    #+begin_src emacs-lisp :tangle yes
+    ;; for global-mode
      (use-package yasnippet
-	  :ensure t
-	  :init
-	  (progn
-	   (yas-global-mode 1)
-	 ))
+	      :ensure t
+	      :init
+	 (progn
+	     (yas-global-mode 1)
+    ))
+     ;; for minor-mode	  
+     ;; (yas-reload-all)
+     ;; (add-hook 'prog-mode-hook #'yas-minor-mode)
    #+end_src
 ** Company
    #+begin_src emacs-lisp :tangle yes
@@ -417,11 +350,6 @@
 	      ("\\.markdown\\'" . markdown-mode))
        )
      ;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
-   #+end_src
-** Cua-mode
-   #+begin_src emacs-lisp :tangle yes
-     ;; CTR+C,V ; for win user
-     (cua-mode)
    #+end_src
 ** Joplin
    #+begin_src emacs-lisp :tangle yes
