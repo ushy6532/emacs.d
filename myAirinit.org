@@ -105,29 +105,22 @@
    #+end_src 
 * Window, Global Key
 ** Window
+*** general
   #+begin_src emacs-lisp :tangle yes
-    ;; cursor
-    ;;(setq-default cursor-type 'box)
-    ;(setq-default cursor-type 'bar)
-    ;(setq-default cursor-type 'hbar)
-
     ;;Window title 
     (setq frame-title-format "dole's Emacs - %b")
     (setq icon-title-format "Emacs - %b")
 
-    ;;시작 화면 메세지 끄기
+    ;; initial message stop
     (setq inhibit-startup-message t)
     (setq initial-scratch-message "")
 
     ;;disable menubar
     (menu-bar-mode 1)
-    (tool-bar-mode 0)
+    (tool-bar-mode -1)
     (toggle-scroll-bar -1) 
 
-    ;;GUI환경 시작시 창화면 최대화
-    (set-frame-parameter nil 'fullscreen 'fullboth)
-
-    ; 라인 표시하기
+    ; linum mode
     (global-linum-mode 1)
 
     ;;show mark range
@@ -136,14 +129,20 @@
     ;; wordrap
     (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
-    ;GUI 화경에서 줄 간격 조절
+    ;line spacing
     (setq-default line-spacing 8)
 
-    ;찾기 기능에서 하이라이트 설정
+    ;search highlight
     (setq search-highlight t)    
   #+end_src
+*** toggle fullscreen
   #+begin_src emacs-lisp :tangle yes
-    ;; toggle- Full Screen
+    ;; initial: fullscreen
+    (set-frame-parameter nil 'fullscreen 'fullboth)
+  #+end_src
+  
+  #+begin_src emacs-lisp :tangle yes
+    ;; toggle Full Screen
     ;; https://superuser.com/questions/256404/fullscreen-emacs-in-osx
      (defun toggle-fullscreen (&optional f)
        (interactive)
