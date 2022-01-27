@@ -92,7 +92,7 @@
    #+begin_src emacs-lisp :tangle yes
      ;;for korean
      ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
-     (setq calendar-week-start-day 1 
+     (setq calendar-week-start-day 0 
 	   calendar-day-name-array ["일" "월" "화" "수" "목" "금" "토"]
 	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
 	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
@@ -107,32 +107,41 @@
 ** Window
 *** general
   #+begin_src emacs-lisp :tangle yes
+    ;;initial message stop
+    (setq inhibit-startup-message t)
+    (setq initial-scratch-message "")
+
     ;;Window title 
     (setq frame-title-format "dole's Emacs - %b")
     (setq icon-title-format "Emacs - %b")
-
-    ;; initial message stop
-    (setq inhibit-startup-message t)
-    (setq initial-scratch-message "")
 
     ;;disable menubar
     (menu-bar-mode 1)
     (tool-bar-mode -1)
     (toggle-scroll-bar -1) 
 
-    ; linum mode
+    ;;linum mode
     (global-linum-mode 1)
 
     ;;show mark range
     (transient-mark-mode t)
 
-    ;; wordrap
+    ;;display time, date
+    ;; (require 'time)
+    ;; (setq display-time-24hr-format t)
+    ;; (setq display-time-day-and-date t)
+    ;; (display-time)
+    
+    ;;wordrap
     (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
-    ;line spacing
+    ;;kill whole line
+    (setq kill-whole-line 1)
+
+    ;;line spacing
     (setq-default line-spacing 8)
 
-    ;search highlight
+    ;;search highlight
     (setq search-highlight t)    
   #+end_src
 *** toggle fullscreen
@@ -368,21 +377,21 @@
      ;; Ivy는 자동완성을 도와주는 도구
      ;; Ivy는 Ivy를 사용해 이맥스의 기본 기능을 개선시킨 함수들을 제공하는데 이를 Counsel이라 함.
      ;; Swiper는 이맥스의 검색 기능(Ctrl-s)를 개선시킨 함수입니다. 이 세 종류의 기능을 보통 함께 
-     (use-package counsel
-	 :ensure t)
+     ;; (use-package counsel
+     ;;     :ensure t)
 
-     (use-package ivy
-	 :ensure t
-	 :config
-	 (setq ivy-use-virtual-buffers t)
-	 (setq enable-recursive-minibuffers t)
+     ;; (use-package ivy
+     ;;     :ensure t
+     ;;     :config
+     ;;     (setq ivy-use-virtual-buffers t)
+     ;;     (setq enable-recursive-minibuffers t)
 	 ;; enable this if you want `swiper' to use it
 	 ;; (setq search-default-mode #'char-fold-to-regexp)
-	 (global-set-key (kbd "C-s") 'swiper)
+	; (global-set-key (kbd "C-s") 'swiper)
 	; (global-set-key (kbd "C-c C-r") 'ivy-resume)
-	 (global-set-key (kbd "<f6>") 'ivy-resume)
-	 (global-set-key (kbd "M-x") 'counsel-M-x)
-	 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+	 ;; (global-set-key (kbd "<f6>") 'ivy-resume)
+	 ;; (global-set-key (kbd "M-x") 'counsel-M-x)
+	 ;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 	 ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 	 ;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 	 ;; (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
