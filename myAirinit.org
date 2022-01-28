@@ -131,7 +131,7 @@
     ;; (setq display-time-24hr-format t)
     ;; (setq display-time-day-and-date t)
     ;; (display-time)
-    
+
     ;;wordrap
     (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
@@ -142,7 +142,12 @@
     (setq-default line-spacing 8)
 
     ;;search highlight
-    (setq search-highlight t)    
+    (setq search-highlight t)
+
+    ;;smooth scrolling
+    (require 'smooth-scrolling)
+    (smooth-scrolling-mode 1)
+
   #+end_src
 *** toggle fullscreen
   #+begin_src emacs-lisp :tangle yes
@@ -295,12 +300,15 @@
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
      ;; for export PDF
+     ;; PATH
      (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
+     ;;(add-to-list 'exec-path ":/Library/TeX/texbin")
+     (use-package exec-path-from-shell
+       :config (exec-path-from-shell-initialize))
      (setq org-latex-to-pdf-process
 	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"))
-
      ;; for export markdown
 	(eval-after-load "org"
 	 '(require 'ox-md nil t))
