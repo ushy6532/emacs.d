@@ -104,6 +104,12 @@
      ;(setq calendar-holidays (append calendar-holidays korean-holidays)
    #+end_src 
 * Window, Global Key
+** Path
+   #+begin_src emacs-lisp :tangle yes
+     ;;https://www.emacswiki.org/emacs/ExecPath
+     (setq exec-path (append exec-path '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin" "/usr/local/lib/pkgconfig")))
+     (setenv "PATH" (concat (getenv "PATH") "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin:/usr/local/lib/pkgconfig"))
+   #+end_src
 ** Window
 *** general
   #+begin_src emacs-lisp :tangle yes
@@ -168,12 +174,6 @@
 	       'fullboth)))))
     (global-set-key (kbd "C-x x") 'toggle-fullscreen)
   #+end_src
-** Path
-   #+begin_src emacs-lisp :tangle yes
-     ;;https://www.emacswiki.org/emacs/ExecPath
-     (setq exec-path (append exec-path '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
-     (setenv "PATH" (concat (getenv "PATH") "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin"))
-   #+end_src
 ** Recent File
     #+begin_src emacs-lisp :tangle yes
       ;;최근 파일 접근
@@ -277,7 +277,7 @@
     ; C-u C-c - 일자와 시간 추가
     ; C-g - 하던 일 멈추고 벗어남. 명령 취소;
 
-    (setq org-agenda-files '("~/Dropbox/Doc/Life/org/memo_Main.org"
+    (setq org-agenda-files '("~/Dropbox/Doc/Life/org/Notes.org"
 			     "~/Dropbox/Doc/Life/org/Agenda.org"))
       
     (add-hook 'org-mode-hook 
@@ -307,9 +307,9 @@
    #+begin_src emacs-lisp :tangle yes
      ;; for export PDF
      ;; PATH
-;     (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
-     (use-package exec-path-from-shell
-       :config (exec-path-from-shell-initialize))
+     ;; (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
+     ;; (use-package exec-path-from-shell
+     ;;   :config (exec-path-from-shell-initialize))
      (setq org-latex-to-pdf-process
 	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"
