@@ -149,12 +149,6 @@
     (smooth-scrolling-mode 1)
 
   #+end_src
-*** Path
-    #+begin_src emacs-lisp :tangle yes
-      ;;https://www.emacswiki.org/emacs/ExecPath
-      (setq exec-path (append exec-path '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
-      (setenv "PATH" (concat (getenv "PATH") "/usr/local/bin;/bin;/usr/bin;/usr/sbin;/usr/local/sbin;/Library/TeX/texbin"))
-    #+end_src
 *** toggle fullscreen
   #+begin_src emacs-lisp :tangle yes
     ;; initial: fullscreen
@@ -174,6 +168,12 @@
 	       'fullboth)))))
     (global-set-key (kbd "C-x x") 'toggle-fullscreen)
   #+end_src
+** Path
+   #+begin_src emacs-lisp :tangle yes
+     ;;https://www.emacswiki.org/emacs/ExecPath
+     (setq exec-path (append exec-path '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
+     (setenv "PATH" (concat (getenv "PATH") "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin"))
+   #+end_src
 ** Recent File
     #+begin_src emacs-lisp :tangle yes
       ;;최근 파일 접근
