@@ -306,14 +306,16 @@
     #+end_src
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
-     ;; for export PDF
-     (setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;for toc after newpage
+     ;;for export PDF
+     ;;https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc/42579
+     (setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage")
+     
      (setq org-latex-to-pdf-process
 	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"))
 
-     ;; for export markdown
+     ;;for export markdown
 	(eval-after-load "org"
 	 '(require 'ox-md nil t))
    #+end_src   
@@ -358,10 +360,10 @@
    #+begin_src emacs-lisp :tangle yes
      ;; Ace-window
      (global-set-key (kbd "M-o") 'ace-window)
-     ;(global-set-key [M-left] 'windmove-left)          ; move to left window
-     ;(global-set-key [M-right] 'windmove-right)        ; move to right window
-     ;(global-set-key [M-up] 'windmove-up)              ; move to upper window
-     ;(global-set-key [M-down] 'windmove-down)          ; move to lower window
+     (global-set-key [M-s-left] 'windmove-left)          ; move to left window
+     (global-set-key [M-s-right] 'windmove-right)        ; move to right window
+     (global-set-key [M-s-up] 'windmove-up)              ; move to upper window
+     (global-set-key [M-s-down] 'windmove-down)          ; move to lower window
    #+end_src
 ** Markdown-mode
    #+begin_src emacs-lisp :tangle yes
