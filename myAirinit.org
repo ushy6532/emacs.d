@@ -15,7 +15,7 @@
      (unless (boundp 'package-pinned-packages)
        (setq package-pinned-packages ()))
 
-     ;; 설치 여부 확인, 없을 경우 설치
+     ;; use-package install
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
@@ -59,7 +59,7 @@
       load-prefer-newer t)
    #+end_src
 * Korean. LANG
-** Korean hangul
+** Korean hangul,utf-8
   #+begin_src emacs-lisp :tangle yes
     ;; LANG - eshell locale
     (setenv "LANG" "ko_KR.UTF-8")
@@ -69,6 +69,7 @@
      (setq locale-coding-system 'utf-8)
      (set-default-coding-systems 'utf-8)
      (set-terminal-coding-system 'utf-8)
+     (set-keyboard-coding-system 'utf-8)
   #+end_src
 ** default Fonts
    #+begin_src emacs-lisp :tangle yes
@@ -306,14 +307,12 @@
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
      ;; for export PDF
-     ;; PATH
-     ;; (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin")) ;;for MacTeX
-     ;; (use-package exec-path-from-shell
-     ;;   :config (exec-path-from-shell-initialize))
+     (setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;for toc after newpage
      (setq org-latex-to-pdf-process
 	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"))
+
      ;; for export markdown
 	(eval-after-load "org"
 	 '(require 'ox-md nil t))
