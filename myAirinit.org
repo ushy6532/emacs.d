@@ -19,7 +19,7 @@
      ;; use-package package, 미 설치 자동설치
      (setq use-package-always-ensure t)
    #+end_src
-* Window, Global Key
+* General, Window
 ** Path
    #+begin_src emacs-lisp :tangle yes
      ;;https://www.emacswiki.org/emacs/ExecPath
@@ -66,27 +66,27 @@
 
   #+end_src
 *** toggle fullscreen
-  #+begin_src emacs-lisp :tangle yes
+    #+begin_src emacs-lisp :tangle yes
     ;; initial: fullscreen
     ;;(set-frame-parameter nil 'fullscreen 'fullboth)
-  #+end_src
+    #+end_src
   
-  #+begin_src emacs-lisp :tangle yes
-    ;; toggle Full Screen
-    ;; https://superuser.com/questions/256404/fullscreen-emacs-in-osx
-     (defun toggle-fullscreen (&optional f)
-       (interactive)
-       (let ((current-value (frame-parameter nil 'fullscreen)))
-	 (set-frame-parameter nil 'fullscreen
-	   (if (equal 'fullboth current-value)
-	     (if (boundp 'old-fullscreen) old-fullscreen nil)
-	     (progn (setq old-fullscreen current-value)
-	       'fullboth)))))
-    (global-set-key (kbd "C-x x") 'toggle-fullscreen)
-  #+end_src
+   #+begin_src emacs-lisp :tangle yes
+     ;; toggle Full Screen
+     ;; https://superuser.com/questions/256404/fullscreen-emacs-in-osx
+     
+      (defun toggle-fullscreen (&optional f)
+	(interactive)
+	(let ((current-value (frame-parameter nil 'fullscreen)))
+	  (set-frame-parameter nil 'fullscreen
+	    (if (equal 'fullboth current-value)
+	      (if (boundp 'old-fullscreen) old-fullscreen nil)
+	      (progn (setq old-fullscreen current-value)
+		'fullboth)))))
+      (global-set-key (kbd "C-x x") 'toggle-fullscreen)
+   #+end_src
 ** Recent File
     #+begin_src emacs-lisp :tangle yes
-      ;;최근 파일 접근
       (require 'recentf)
       (recentf-mode 1)
       (setq recentf-max-menu-items 10)
@@ -117,9 +117,9 @@
 	:ensure t)
    #+end_src
 *** Switch themes
-    #+begin_src emacs-lisp :tangle yes
+   #+begin_src emacs-lisp :tangle yes
       ;; https://github.com/nkicg6/emacs-config/blob/master/config.org
-      (defun switch-theme (theme)
+     (defun switch-theme (theme)
 	"Disables any currently active themes and loads THEME."
 	;; This interactive call is taken from `load-theme'
 	(interactive
@@ -140,16 +140,17 @@
     #+end_src
 ** Initial mode
    #+begin_src emacs-lisp :tangle yes
-    ;;initial mode -  ORGMode
+     ;;initial mode -  ORGMode
      (setq initial-major-mode 'org-mode)
+     
    #+end_src
 * Korean. LANG
 ** Korean hangul,utf-8
   #+begin_src emacs-lisp :tangle yes
-   ;; LANG - eshell locale
+   ;; eshell locale
    (setenv "LANG" "ko_KR.UTF-8")
 
-   ;; UTF-8 설정
+   ;; UTF-8
    (set-language-environment 'utf-8)
    (prefer-coding-system 'utf-8)
    ;; (setq locale-coding-system 'utf-8)
@@ -161,20 +162,18 @@
   #+end_src
 ** default Fonts
    #+begin_src emacs-lisp :tangle yes
-     (set-face-attribute 'default nil
-				 :family "D2coding"
-				 :foundry "SAND"
-				 :slant 'normal
-				 :weight 'normal
-				 :height 130
-				 :width 'normal)
+    (set-face-attribute 'default nil
+		 :family "D2coding"
+		 :foundry "SAND"
+		 :slant 'normal
+		 :weight 'normal
+		 :height 130
+		 :width 'normal)
 
   #+end_src
 ** Keyboard
    #+begin_src emacs-lisp :tangle yes
-    ;; Keyboard 2벌식
     (setq default-input-method "korean-hangul")
-     ;; S+Space
     (global-set-key (kbd "S-SPC") 'toggle-input-method)
    #+end_src
 ** korean Calendar
@@ -201,30 +200,30 @@
 ** Org-mode
 *** org
     #+begin_src emacs-lisp :tangle yes
-      (use-package org
+    (use-package org
 	:config
-     	(progn
-	  (setq org-startup-indented nil)
-	  (setq org-hide-leading-stars nil)
-	  (setq org-adapt-indentation t)))
+      (progn
+        (setq org-startup-indented nil)
+        (setq org-hide-leading-stars nil)
+        (setq org-adapt-indentation t)))
       
-	  ;(setq org-image-actual-width nil)        ;image fulscreen hebit
-	  ;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
+        ;;(setq org-image-actual-width nil)        ;image fulscreen hebit
+        ;;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
       
-	;; 할 일 설정하기 Todo
-	;; C-c C-v - 현재 문서에 있는 할 일 목록 보기
-	;; C-c / t - 현재 할 일 항목외 모두 접기
-	(setq org-todo-keywords
+	;; TODO set
+	;; C-c C-v : View todo list
+	;; C-c / t : 현재 할 일 항목외 모두 접기
+      (setq org-todo-keywords
 	 '((sequence "TODO" "ING" "WAIT" "DONE")))
     #+end_src    
 *** Agenda
     #+begin_src emacs-lisp :tangle yes
     ;; for agenda
-    ; C-c [ - 아젠다 파일 목록에 문서 추가
-    ; C-c ] - 아젠다 파일 목록에서 문서를 제거
-    ; C-c . - 일자 추가
-    ; C-u C-c - 일자와 시간 추가
-    ; C-g - 하던 일 멈추고 벗어남. 명령 취소;
+    ;; C-c [ - 아젠다 파일 목록에 문서 추가
+    ;; C-c ] - 아젠다 파일 목록에서 문서를 제거
+    ;; C-c . - 일자 추가
+    ;; C-u C-c - 일자와 시간 추가
+    ;; C-g - 하던 일 멈추고 벗어남. 명령 취소;
 
     (setq org-agenda-files '("~/Dropbox/Doc/Life/org/Notes.org"
 			     "~/Dropbox/Doc/Life/org/Agenda.org"))
@@ -238,11 +237,10 @@
      ;; global key: C-c c
     (setq org-capture-templates
      '(
-	     ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
+        ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
 	      "* %?\n insert on: %U %i")
-	     ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
-	      "** 이름: %?\n  - 회사: \n  - 연락: \n  - 메모: \n   %t"))
-	  )
+        ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
+	      "** 이름: %?\n  - 회사: \n  - 연락: \n  - 메모: \n   %t")))
      (global-set-key (kbd "C-c c") 'org-capture)
     #+end_src
 *** for bullet
@@ -265,50 +263,43 @@
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"))
 
      ;;for export markdown
-	(eval-after-load "org"
-	 '(require 'ox-md nil t))
+      (eval-after-load "org"
+        '(require 'ox-md nil t))
    #+end_src   
 *** for Slide
    #+begin_src emacs-lisp :tangle yes
     (use-package org-tree-slide
 	:custom
-     (org-image-actual-width nil))
+         (org-image-actual-width nil))
     #+end_src
 ** Yasnippet
    #+begin_src emacs-lisp :tangle yes
-    ;; for global-mode
-     (use-package yasnippet
-	      :ensure t
-	      :init
-	 (progn
-	     (yas-global-mode 1)
-    ))
-     ;; for minor-mode	  
-     ;; (yas-reload-all)
-     ;; (add-hook 'prog-mode-hook #'yas-minor-mode)
+    (use-package yasnippet
+        :ensure t
+        :init
+         (progn
+	      (yas-global-mode 1)))
    #+end_src
 ** Company
    #+begin_src emacs-lisp :tangle yes
      (use-package company
-       :ensure t
-       :init
-       (add-hook 'after-init-hook 'global-company-mode)
-       :config
-	(setq company-idle-delay 0
+        :ensure t
+        :init
+         (add-hook 'after-init-hook 'global-company-mode)
+        :config
+   	(setq company-idle-delay 0
 	      company-minimum-prefix-length 3
 	      company-selection-wrap-around t))
    #+end_src
 ** Which-key
    #+begin_src emacs-lisp :tangle yes
-     ;; which-key
-     (use-package which-key
+    (use-package which-key
 	 :ensure t
 	 :config
-       (which-key-mode))
+          (which-key-mode))
    #+end_src
 ** Ace-window
    #+begin_src emacs-lisp :tangle yes
-     ;; Ace-window
      (global-set-key (kbd "M-o") 'ace-window)
      (global-set-key [M-s-left] 'windmove-left)          ; move to left window
      (global-set-key [M-s-right] 'windmove-right)        ; move to right window
@@ -318,28 +309,18 @@
 ** Undo-tree
    #+begin_src emacs-lisp :tangle yes
      (use-package undo-tree
-		  :ensure t
-		  :init
-    (global-undo-tree-mode))
+	  :ensure t
+	  :init
+           (global-undo-tree-mode))
    #+end_src
 ** Markdown-mode
    #+begin_src emacs-lisp :tangle yes
-     ;; mark-down mode
      (use-package markdown-mode
-       :ensure t
-       :commands (markdown-mode gfm-mode)
-       :mode (("README\\.md\\'" . gfm-mode)
+        :ensure t
+        :commands (markdown-mode gfm-mode)
+        :mode (("README\\.md\\'" . gfm-mode)
 	      ("\\.md\\'" . markdown-mode)
 	      ("\\.markdown\\'" . markdown-mode))
        )
-     ;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
-   #+end_src
-** Joplin
-   #+begin_src emacs-lisp :tangle yes
-   ;; sync for Joplin external editor
-   ;; emacs가 원본 파일을 계속 편집하는 동안 내용을 새 파일에 복사,백업 파일  만듬
-   ;; markdown-mode일 경우 : Bug
-    ;;(add-hook 'markdown-mode-hook
-    ;;      '(setq backup-by-copying t))
-   ;(setq backup-by-copying t)
+     ;;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
    #+end_src
