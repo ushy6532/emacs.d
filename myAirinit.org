@@ -58,58 +58,12 @@
      ;; 오래된 버전 파일 로드않고 재컴파일
       load-prefer-newer t)
    #+end_src
-* Korean. LANG
-** Korean hangul,utf-8
-  #+begin_src emacs-lisp :tangle yes
-    ;; LANG - eshell locale
-    (setenv "LANG" "ko_KR.UTF-8")
-
-    ;; UTF-8 설정
-     ;(set-language-environment 'utf-8)
-     (setq locale-coding-system 'utf-8)
-     (set-default-coding-systems 'utf-8)
-     (set-terminal-coding-system 'utf-8)
-     (set-keyboard-coding-system 'utf-8)
-  #+end_src
-** default Fonts
-   #+begin_src emacs-lisp :tangle yes
-     (set-face-attribute 'default nil
-				 :family "D2coding"
-				 :foundry "SAND"
-				 :slant 'normal
-				 :weight 'normal
-				 :height 130
-				 :width 'normal)
-
-  #+end_src
-** Keyboard
-   #+begin_src emacs-lisp :tangle yes
-    ;; Keyboard 2벌식
-    (setq default-input-method "korean-hangul")
-     ;; S+Space
-    (global-set-key (kbd "S-SPC") 'toggle-input-method)
-   #+end_src
-** korean Calendar
-   #+begin_src emacs-lisp :tangle yes
-     ;;for korean
-     ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
-     (setq calendar-week-start-day 0 
-	   calendar-day-name-array ["일" "월" "화" "수" "목" "금" "토"]
-	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
-	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
-   #+end_src
-** korean holidays
-   #+begin_src emacs-lisp :tangle yes
-     ;;https://m.blog.naver.com/jodi999/221008996220
-     (setq calendar-holidays korean-holidays)
-     ;(setq calendar-holidays (append calendar-holidays korean-holidays)
-   #+end_src 
 * Window, Global Key
 ** Path
    #+begin_src emacs-lisp :tangle yes
      ;;https://www.emacswiki.org/emacs/ExecPath
-     (setq exec-path (append exec-path '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin" "/usr/local/lib/pkgconfig")))
-     (setenv "PATH" (concat (getenv "PATH") "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin:/usr/local/lib/pkgconfig"))
+     (setq exec-path (append exec-path '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
+     (setenv "PATH" (concat (getenv "PATH") "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin"))
    #+end_src
 ** Window
 *** general
@@ -128,7 +82,7 @@
     (toggle-scroll-bar -1) 
 
     ;;linum mode
-    (global-linum-mode 1)
+    ;;(global-linum-mode 1)
 
     ;;show mark range
     (transient-mark-mode t)
@@ -159,7 +113,7 @@
 *** toggle fullscreen
   #+begin_src emacs-lisp :tangle yes
     ;; initial: fullscreen
-    (set-frame-parameter nil 'fullscreen 'fullboth)
+    ;;(set-frame-parameter nil 'fullscreen 'fullboth)
   #+end_src
   
   #+begin_src emacs-lisp :tangle yes
@@ -242,6 +196,55 @@
      ;c-c t 'switch themes
      ;c-x x 'toggle-fullscreen
    #+end_src
+* Korean. LANG
+** Korean hangul,utf-8
+  #+begin_src emacs-lisp :tangle yes
+   ;; LANG - eshell locale
+   (setenv "LANG" "ko_KR.UTF-8")
+
+   ;; UTF-8 설정
+   (set-language-environment 'utf-8)
+   (prefer-coding-system 'utf-8)
+   ;; (setq locale-coding-system 'utf-8)
+   (set-default-coding-systems 'utf-8)
+   (set-terminal-coding-system 'utf-8)
+   (set-keyboard-coding-system 'utf-8)
+   (setq-default buffer-file-coding-system 'utf-8)
+   (setq-default coding-system-for-write 'utf-8) 
+  #+end_src
+** default Fonts
+   #+begin_src emacs-lisp :tangle yes
+     (set-face-attribute 'default nil
+				 :family "D2coding"
+				 :foundry "SAND"
+				 :slant 'normal
+				 :weight 'normal
+				 :height 130
+				 :width 'normal)
+
+  #+end_src
+** Keyboard
+   #+begin_src emacs-lisp :tangle yes
+    ;; Keyboard 2벌식
+    (setq default-input-method "korean-hangul")
+     ;; S+Space
+    (global-set-key (kbd "S-SPC") 'toggle-input-method)
+   #+end_src
+** korean Calendar
+   #+begin_src emacs-lisp :tangle yes
+     ;;for korean
+     ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
+     (setq calendar-week-start-day 0 
+	   calendar-day-name-array ["일" "월" "화" "수" "목" "금" "토"]
+	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
+	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
+   #+end_src
+** korean holidays
+   #+begin_src emacs-lisp :tangle yes
+     ;;https://m.blog.naver.com/jodi999/221008996220
+     (setq calendar-holidays korean-holidays)
+     ;(setq calendar-holidays (append calendar-holidays korean-holidays)
+   #+end_src 
 * emacs-Mode
 ** Cua-mode
    #+begin_src emacs-lisp :tangle yes
@@ -341,12 +344,20 @@
 ** Company
    #+begin_src emacs-lisp :tangle yes
      ;;auto-complete
+     ;; (use-package company
+     ;;    :config
+     ;;    (setq company-idle-delay 0
+     ;; 	 company-minimum-prefix-length 3
+     ;; 	 company-selection-wrap-around t))
+     ;; (global-company-mode)
      (use-package company
-	:config
-        (setq company-idle-delay 0
+       :ensure t
+       :init
+       (add-hook 'after-init-hook 'global-company-mode)
+       :config
+	(setq company-idle-delay 0
 	      company-minimum-prefix-length 3
 	      company-selection-wrap-around t))
-     (global-company-mode)
    #+end_src
 ** Which-key
    #+begin_src emacs-lisp :tangle yes
@@ -432,22 +443,56 @@
 
 ** Pdf-tools
   #+begin_src emacs-lisp :tangle yes
-    ;;http://alberto.am/2020-04-11-pdf-tools-as-default-pdf-viewer.html
-    (use-package pdf-tools
-       :pin manual
-       :config
-    (pdf-tools-install)
-    (setq-default pdf-view-display-size 'fit-width)
-    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-       :custom
-    (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
+	;;http://alberto.am/2020-04-11-pdf-tools-as-default-pdf-viewer.html
+	;; (use-package pdf-tools
+	;;    :pin manual
+	;;    :config
+	;; (pdf-tools-install)
+	;; (setq-default pdf-view-display-size 'fit-width)
+	;; (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+	;;    :custom
+	;; (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
 
-    (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-	TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-	TeX-source-correlate-start-server t)
+	;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+	;;     TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+	;;     TeX-source-correlate-start-server t)
 
-     (add-hook 'TeX-after-compilation-finished-functions
-	 #'TeX-revert-document-buffer)
+	;;  (add-hook 'TeX-after-compilation-finished-functions
+	;;      #'TeX-revert-document-buffer)
 
-     (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
+	;;  (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
+    ;; https://github.com/wx672/dotfile/blob/master/dot.emacs.d/init.el
+(use-package pdf-tools
+      :pin (message "message" format-args)anual
+      :init (pdf-tools-install)
+      :bind (:map pdf-view-mode-map
+			      ("T" . pdf-annot-add-text-annotation)
+			      ("D" . pdf-annot-delete)
+			      ("t" . pdf-annot-add-highlight-markup-annotation)
+			      ("j" . image-next-line)
+			      ("k" . image-previous-line)
+			      ("l" . image-forward-hscroll)
+			      ("h" . image-backward-hscroll)
+			      ("G" . pdf-view-last-page)
+			      ("g" . nil)
+			      ("gg" . pdf-view-first-page)
+			      ("C-c C-c" . image-toggle-display)
+			      ("C-s" . isearch-forward))
+      :config
+      (setq-default pdf-view-display-size 'fit-page)
+      :custom
+      (yas-minor-mode nil)
+      (pdf-cache-image-limit 32)
+      (pdf-view-max-image-width 2048)
+      (pdf-view-resize-factor 1.8)
+      (pdf-isearch-batch-mode t)
+      (pdf-annot-activate-created-annotations t))
   #+end_src
+
+** Undo-tree
+   #+begin_src emacs-lisp :tangle yes
+     (use-package undo-tree
+	  :ensure t
+	  :diminish undo-tree-mode
+	  :init (global-undo-tree-mode t))
+   #+end_src
