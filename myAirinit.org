@@ -5,58 +5,19 @@
      (require 'package)
      (setq package-archives
       '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
-	      ("melpa" . "https://melpa.org/packages/")
-	      ("gnu" . "https://elpa.gnu.org/packages/")))
+	      ("melpa" . "https://melpa.org/packages/")))
+	;;      ("gnu" . "https://elpa.gnu.org/packages/")))
      (package-initialize)
    #+end_src
-** Package refresh
+** use Package
    #+begin_src emacs-lisp :tangle yes
-     ;; 구 버전 패키지 저장않게
-     (unless (boundp 'package-pinned-packages)
-       (setq package-pinned-packages ()))
-
      ;; use-package install
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
 
-     ;; 에러가 발생할 경우 elpa 폴더 제거, 새로 설치
-     (eval-when-compile
-       (condition-case nil
-	   (require 'use-package)
-	 (error 
-	  (message "Use-package error; re-initializing...")
-	   (delete-directory "~/.emacs.d/elpa" t)
-	   (package-initialize)
-	   (package-install 'use-package)
-	   (require 'use-package))))
-
-     ;; 로딩 속도가 느린 패키지는 *message* 버퍼에 표시 
-     ;(setq use-package-verbose t) 
-     ;; use-package에서 불러오는 패키지가 설치 여부 확인. 미 설치 자동설치
+     ;; use-package package, 미 설치 자동설치
      (setq use-package-always-ensure t)
-
-     ;; auto package UPDATE
-     (use-package auto-package-update
-	 ;use-package는 패키지를 설치하고 로딩하지만, 자동 업데이트 않음.
-	 ;; 이를 위해 auto-package-update.el 설치
-       :config
-       ;; 자동으로 업데이트 진행
-       (auto-package-update-maybe)
-       ;; 1달(4주)에 한번 빈도로 자동 업데이트
-       (setq auto-package-update-interval 28)
-       ;; 업데이트 진행 여부 확인
-       (setq auto-package-update-prompt-before-update t)
-       ;; 이전 버전 파일 삭제
-       (setq auto-package-update-delete-old-versions t))
-
-     (setq
-     ;Emacs는 패키지 설치할 때 관련 정보를 init.el에 기록.방지
-      package--init-file-ensured t
-     ;; org 관련 프로세스가 자동 종료되게.
-      kill-buffer-query-functions nil
-     ;; 오래된 버전 파일 로드않고 재컴파일
-      load-prefer-newer t)
    #+end_src
 * Window, Global Key
 ** Path
@@ -86,12 +47,6 @@
 
     ;;show mark range
     (transient-mark-mode t)
-
-    ;;display time, date
-    ;; (require 'time)
-    ;; (setq display-time-24hr-format t)
-    ;; (setq display-time-day-and-date t)
-    ;; (display-time)
 
     ;;wordrap
     (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
@@ -135,6 +90,7 @@
       (require 'recentf)
       (recentf-mode 1)
       (setq recentf-max-menu-items 10)
+      (global-set-key (kbd "C-x C-r") 'recentf-open-files)
     #+end_src
 ** Theme
 *** default theme
@@ -190,11 +146,11 @@
 ** Global key
    #+begin_src emacs-lisp :tangle yes
       ;; org capture
-      (global-set-key (kbd "C-c c") 'org-capture)
-      (global-set-key (kbd "C-x C-r") 'recentf-open-files)
-     ;c-x w 'news
-     ;c-c t 'switch themes
-     ;c-x x 'toggle-fullscreen
+     ;; (global-set-key (kbd "C-c c") 'org-capture)
+     ;; (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+     ;;c-x w 'news
+     ;;c-c t 'switch themes
+     ;;c-x x 'toggle-fullscreen
    #+end_src
 * Korean. LANG
 ** Korean hangul,utf-8
@@ -290,14 +246,15 @@
     #+end_src    
 *** Capture
     #+begin_src emacs-lisp :tangle yes
-    ;; global key: C-c c
-   (setq org-capture-templates
-    '(
-	  ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
-	   "* %?\n insert on: %U %i")
-	  ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
-	   "** 이름: %?\n  - 회사: \n  - 연락: \n  - 메모: \n   %t"))
-       )
+     ;; global key: C-c c
+    (setq org-capture-templates
+     '(
+	     ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
+	      "* %?\n insert on: %U %i")
+	     ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
+	      "** 이름: %?\n  - 회사: \n  - 연락: \n  - 메모: \n   %t"))
+	  )
+     (global-set-key (kbd "C-c c") 'org-capture)
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
@@ -343,13 +300,6 @@
    #+end_src
 ** Company
    #+begin_src emacs-lisp :tangle yes
-     ;;auto-complete
-     ;; (use-package company
-     ;;    :config
-     ;;    (setq company-idle-delay 0
-     ;; 	 company-minimum-prefix-length 3
-     ;; 	 company-selection-wrap-around t))
-     ;; (global-company-mode)
      (use-package company
        :ensure t
        :init
@@ -376,6 +326,13 @@
      (global-set-key [M-s-up] 'windmove-up)              ; move to upper window
      (global-set-key [M-s-down] 'windmove-down)          ; move to lower window
    #+end_src
+** Undo-tree
+   #+begin_src emacs-lisp :tangle yes
+     (use-package undo-tree
+		  :ensure t
+		  :init
+    (global-undo-tree-mode))
+   #+end_src
 ** Markdown-mode
    #+begin_src emacs-lisp :tangle yes
      ;; mark-down mode
@@ -396,103 +353,4 @@
     ;;(add-hook 'markdown-mode-hook
     ;;      '(setq backup-by-copying t))
    ;(setq backup-by-copying t)
-   #+end_src
-** ivy,counsel,swiper
-   #+begin_src emacs-lisp :tangle yes
-     ;; Ivy는 자동완성을 도와주는 도구
-     ;; Ivy는 Ivy를 사용해 이맥스의 기본 기능을 개선시킨 함수들을 제공하는데 이를 Counsel이라 함.
-     ;; Swiper는 이맥스의 검색 기능(Ctrl-s)를 개선시킨 함수입니다. 이 세 종류의 기능을 보통 함께 
-     ;; (use-package counsel
-     ;;     :ensure t)
-
-     ;; (use-package ivy
-     ;;     :ensure t
-     ;;     :config
-     ;;     (setq ivy-use-virtual-buffers t)
-     ;;     (setq enable-recursive-minibuffers t)
-	 ;; enable this if you want `swiper' to use it
-	 ;; (setq search-default-mode #'char-fold-to-regexp)
-	; (global-set-key (kbd "C-s") 'swiper)
-	; (global-set-key (kbd "C-c C-r") 'ivy-resume)
-	 ;; (global-set-key (kbd "<f6>") 'ivy-resume)
-	 ;; (global-set-key (kbd "M-x") 'counsel-M-x)
-	 ;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-	 ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-	 ;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-	 ;; (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-	 ;; (global-set-key (kbd "<f1> l") 'counsel-find-library)
-	 ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-	 ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-	; (global-set-key (kbd "C-c g") 'counsel-git)
-	; (global-set-key (kbd "C-c j") 'counsel-git-grep)
-	; (global-set-key (kbd "C-c k") 'counsel-ag)
-	; (global-set-key (kbd "C-x l") 'counsel-locate)
-	; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-	; (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
-   #+end_src
-** Elfeed
-   #+begin_src emacs-lisp :tangle yes
-     #+begin_center
-;     (global-set-key (kbd "C-x w") 'elfeed)
-;     (require 'elfeed-org)
-;	      (elfeed-org)
-;      (setq rmh-elfeed-org-files (list "/Users/hykim/.emacs.d/elfeeds.org"))
-;     #+end_center
-;      (setq-default elfeed-search-filter "@2-week-ago +unread ")
-   #+end_src
-
-** Pdf-tools
-  #+begin_src emacs-lisp :tangle yes
-	;;http://alberto.am/2020-04-11-pdf-tools-as-default-pdf-viewer.html
-	;; (use-package pdf-tools
-	;;    :pin manual
-	;;    :config
-	;; (pdf-tools-install)
-	;; (setq-default pdf-view-display-size 'fit-width)
-	;; (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-	;;    :custom
-	;; (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
-
-	;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-	;;     TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-	;;     TeX-source-correlate-start-server t)
-
-	;;  (add-hook 'TeX-after-compilation-finished-functions
-	;;      #'TeX-revert-document-buffer)
-
-	;;  (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
-    ;; https://github.com/wx672/dotfile/blob/master/dot.emacs.d/init.el
-(use-package pdf-tools
-      :pin (message "message" format-args)anual
-      :init (pdf-tools-install)
-      :bind (:map pdf-view-mode-map
-			      ("T" . pdf-annot-add-text-annotation)
-			      ("D" . pdf-annot-delete)
-			      ("t" . pdf-annot-add-highlight-markup-annotation)
-			      ("j" . image-next-line)
-			      ("k" . image-previous-line)
-			      ("l" . image-forward-hscroll)
-			      ("h" . image-backward-hscroll)
-			      ("G" . pdf-view-last-page)
-			      ("g" . nil)
-			      ("gg" . pdf-view-first-page)
-			      ("C-c C-c" . image-toggle-display)
-			      ("C-s" . isearch-forward))
-      :config
-      (setq-default pdf-view-display-size 'fit-page)
-      :custom
-      (yas-minor-mode nil)
-      (pdf-cache-image-limit 32)
-      (pdf-view-max-image-width 2048)
-      (pdf-view-resize-factor 1.8)
-      (pdf-isearch-batch-mode t)
-      (pdf-annot-activate-created-annotations t))
-  #+end_src
-
-** Undo-tree
-   #+begin_src emacs-lisp :tangle yes
-     (use-package undo-tree
-	  :ensure t
-	  :diminish undo-tree-mode
-	  :init (global-undo-tree-mode t))
    #+end_src
