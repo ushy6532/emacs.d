@@ -124,7 +124,7 @@
 	;; This interactive call is taken from `load-theme'
 	(interactive
 	 (list
-	  (intern (completing-read "Choice theme: "
+	  (intern (completing-read "Theme 선택[Tab]: "
 				   (mapc 'symbol-name
 					 (custom-available-themes))))))
 	(let ((enabled-themes custom-enabled-themes))
@@ -142,15 +142,6 @@
    #+begin_src emacs-lisp :tangle yes
     ;;initial mode -  ORGMode
      (setq initial-major-mode 'org-mode)
-   #+end_src
-** Global key
-   #+begin_src emacs-lisp :tangle yes
-      ;; org capture
-     ;; (global-set-key (kbd "C-c c") 'org-capture)
-     ;; (global-set-key (kbd "C-x C-r") 'recentf-open-files)
-     ;;c-x w 'news
-     ;;c-c t 'switch themes
-     ;;c-x x 'toggle-fullscreen
    #+end_src
 * Korean. LANG
 ** Korean hangul,utf-8
@@ -211,10 +202,8 @@
 *** org
     #+begin_src emacs-lisp :tangle yes
       (use-package org
-   ;;	:ensure org-plus-contrib     ;for org-contacts
 	:config
-   ;; org문서,항목의 깊이에 따라 들여쓰기. 단, 항목의 star는 숨기지 않음
-	(progn
+     	(progn
 	  (setq org-startup-indented nil)
 	  (setq org-hide-leading-stars nil)
 	  (setq org-adapt-indentation t)))
@@ -223,8 +212,8 @@
 	  ;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
       
 	;; 할 일 설정하기 Todo
-	; C-c C-v - 현재 문서에 있는 할 일 목록 보기
-	; C-c / t - 현재 할 일 항목외 모두 접기
+	;; C-c C-v - 현재 문서에 있는 할 일 목록 보기
+	;; C-c / t - 현재 할 일 항목외 모두 접기
 	(setq org-todo-keywords
 	 '((sequence "TODO" "ING" "WAIT" "DONE")))
     #+end_src    
@@ -268,7 +257,7 @@
    #+begin_src emacs-lisp :tangle yes
      ;;for export PDF
      ;;https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc/42579
-     (setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage")
+     (setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;Title→TOC→BlankPage→Contents
      
      (setq org-latex-to-pdf-process
 	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
