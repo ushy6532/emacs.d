@@ -1,4 +1,3 @@
-
 * Packages
 ** Source list
    #+begin_src emacs-lisp :tangle yes
@@ -23,8 +22,10 @@
 ** Path
    #+begin_src emacs-lisp :tangle yes
      ;;https://www.emacswiki.org/emacs/ExecPath
-     (setq exec-path (append exec-path '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
-     (setenv "PATH" (concat (getenv "PATH") "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin"))
+      (setq exec-path (append exec-path
+		       '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
+      (setenv "PATH" (concat (getenv "PATH")
+		      "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin"))
    #+end_src
 ** Window
 *** general
@@ -75,7 +76,7 @@
      ;; toggle Full Screen
      ;; https://superuser.com/questions/256404/fullscreen-emacs-in-osx
      
-      (defun toggle-fullscreen (&optional f)
+     (defun toggle-fullscreen (&optional f)
 	(interactive)
 	(let ((current-value (frame-parameter nil 'fullscreen)))
 	  (set-frame-parameter nil 'fullscreen
@@ -99,18 +100,15 @@
     #+end_src
 *** custom theme
     #+begin_src emacs-lisp :tangle yes
-      (use-package material-theme
-       ;material
-       :ensure t
+     (use-package material-theme
+        :ensure t
 	:defer t)
 
-      (use-package zenburn-theme
-	;zenburn
+     (use-package zenburn-theme
 	:ensure t
 	:defer t)
 
-      (use-package solarized-theme
-	;solarized
+     (use-package solarized-theme
 	:defer t
 	:init
 	(setq solarized-use-variable-pitch nil)
@@ -317,6 +315,12 @@
        )
      ;;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
    #+end_src
+** Flycheck
+   #+begin_src emacs-lisp :tangle yes
+     (use-package flycheck
+         :ensure t
+         :init (global-flycheck-mode))
+   #+end_src
 ** Delete
 *** Undo-tree
     #+begin_src emacs-lisp :tangle yes
@@ -325,9 +329,3 @@
       ;;      :init
       ;;       (global-undo-tree-mode))
     #+end_src
-** Flycheck
-   #+begin_src emacs-lisp :tangle yes
-     (use-package flycheck
-         :ensure t
-         :init (global-flycheck-mode))
-   #+end_src
