@@ -249,7 +249,7 @@
     (use-package org-superstar
 	:ensure t
 	:config
-    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+         (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
     #+end_src
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
@@ -306,13 +306,6 @@
      (global-set-key [M-s-up] 'windmove-up)              ; move to upper window
      (global-set-key [M-s-down] 'windmove-down)          ; move to lower window
    #+end_src
-** Undo-tree
-   #+begin_src emacs-lisp :tangle yes
-     (use-package undo-tree
-	  :ensure t
-	  :init
-           (global-undo-tree-mode))
-   #+end_src
 ** Markdown-mode
    #+begin_src emacs-lisp :tangle yes
      (use-package markdown-mode
@@ -323,4 +316,18 @@
 	      ("\\.markdown\\'" . markdown-mode))
        )
      ;;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
+   #+end_src
+** Delete
+*** Undo-tree
+    #+begin_src emacs-lisp :tangle yes
+      ;; (use-package undo-tree
+      ;;      :ensure t
+      ;;      :init
+      ;;       (global-undo-tree-mode))
+    #+end_src
+** Flycheck
+   #+begin_src emacs-lisp :tangle yes
+     (use-package flycheck
+         :ensure t
+         :init (global-flycheck-mode))
    #+end_src
