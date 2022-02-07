@@ -1,4 +1,3 @@
-
 * Packages
 ** Source list
    #+begin_src emacs-lisp :tangle yes
@@ -190,7 +189,7 @@
      (setq calendar-holidays korean-holidays)
      ;(setq calendar-holidays (append calendar-holidays korean-holidays)
    #+end_src 
-* emacs-Mode
+* Mode
 ** Cua-mode
    #+begin_src emacs-lisp :tangle yes
      ;; CTR+C,V ; for win user
@@ -318,15 +317,12 @@
    #+end_src
 ** Flycheck
    #+begin_src emacs-lisp :tangle yes
-     (use-package flycheck
+   (use-package flycheck
          :ensure t
          :init (global-flycheck-mode))
    #+end_src
-** Delete
-*** Undo-tree
-    #+begin_src emacs-lisp :tangle yes
-      ;; (use-package undo-tree
-      ;;      :ensure t
-      ;;      :init
-      ;;       (global-undo-tree-mode))
-    #+end_src
+** Ido-mode
+   #+begin_src emacs-lisp :tangle yes
+   (require 'ido)
+   (ido-mode t)
+   #+end_src
