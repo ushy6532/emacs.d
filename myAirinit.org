@@ -337,12 +337,6 @@
 	  (ido-vertical-mode 1))
           (setq ido-vertical-define-keys 'C-n-and-C-p-only);default C-s,C-r
 #+end_src
-** Flycheck
-   #+begin_src emacs-lisp :tangle yes
-     ;; (use-package flycheck
-     ;;       :ensure t
-     ;;       :init (global-flycheck-mode))
-   #+end_src
 ** Swiper,ivy,counsel
    #+begin_src emacs-lisp :tangle yes
      (ivy-mode)
@@ -354,6 +348,19 @@
        (global-set-key (kbd "C-c C-r") 'ivy-resume)
        (global-set-key (kbd "M-x") 'counsel-M-x)
        (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+   #+end_src
+** Expand-region
+   #+begin_src emacs-lisp :tangle yes
+     ;;https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=jodi999&logNo=221063371134
+     (require 'expand-region)
+     (global-set-key (kbd "C-&") 'er/expand-region)
+     (global-set-key (kbd "C-M-&") 'er/contract-region)
+   #+end_src
+** Flycheck
+   #+begin_src emacs-lisp :tangle yes
+     ;; (use-package flycheck
+     ;;       :ensure t
+     ;;       :init (global-flycheck-mode))
    #+end_src
 ** Pdf view
    #+begin_src emacs-lisp :tangle yes
