@@ -25,11 +25,11 @@
       (setq exec-path (append exec-path
 		       '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
       (setenv "PATH" (concat (getenv "PATH")
-		      "/usr/local/bin:/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/Library/TeX/texbin"))
+		      ":/usr/local/bin:/usr/local/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:opt/homebrew/lib/pkgconfig"))
    #+end_src
 ** Window
 *** general
-  #+begin_src emacs-lisp :tangle yes
+    #+begin_src emacs-lisp :tangle yes
     ;;initial message stop
     (setq inhibit-startup-message t)
     (setq initial-scratch-message "")
@@ -64,8 +64,7 @@
     ;;smooth scrolling
     (require 'smooth-scrolling)
     (smooth-scrolling-mode 1)
-
-  #+end_src
+    #+end_src
 *** toggle fullscreen
     #+begin_src emacs-lisp :tangle yes
     ;; initial: fullscreen
@@ -167,7 +166,6 @@
 		 :weight 'normal
 		 :height 130
 		 :width 'normal)
-
   #+end_src
 ** Keyboard
    #+begin_src emacs-lisp :tangle yes
@@ -253,8 +251,10 @@
    #+begin_src emacs-lisp :tangle yes
      ;;for export PDF
      ;;https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc/42579
-     (setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;Title→TOC→BlankPage→Contents
-     
+     (setq org-latex-title-command "\\maketitle \\newpage")
+     (setq org-latex-toc-command "\\tableofcontents \\newpage")
+     ;;(setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;Title→TOC→BlankPage→Contents
+
      (setq org-latex-to-pdf-process
 	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
 	       "pdflatex -interaction nonstopmode -output-directory %o %f"
@@ -262,7 +262,7 @@
 
      ;;for export markdown
       (eval-after-load "org"
-        '(require 'ox-md nil t))
+	'(require 'ox-md nil t))
    #+end_src   
 *** for Slide
    #+begin_src emacs-lisp :tangle yes
@@ -288,6 +288,13 @@
    	(setq company-idle-delay 0
 	      company-minimum-prefix-length 3
 	      company-selection-wrap-around t))
+   #+end_src
+   
+   #+begin_src emacs-lisp :tangle yes
+     (use-package company-quickhelp          ; Documentation popups for Company
+      :ensure t
+      :defer t
+      :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
    #+end_src
 ** Which-key
    #+begin_src emacs-lisp :tangle yes
@@ -315,26 +322,28 @@
        )
      ;;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
    #+end_src
+** Ido-mode
+   #+begin_src emacs-lisp :tangle yes
+    (require 'ido)
+    (ido-mode t)
+    (ido-everywhere t)
+   #+end_src
+   
+  #+begin_src emacs-lisp :tangle yes
+    ;; ido-vertical
+    (use-package ido-vertical-mode
+	  :ensure t
+	  :init
+	  (ido-vertical-mode 1))
+          (setq ido-vertical-define-keys 'C-n-and-C-p-only);default C-s,C-r
+#+end_src
 ** Flycheck
    #+begin_src emacs-lisp :tangle yes
      ;; (use-package flycheck
      ;;       :ensure t
      ;;       :init (global-flycheck-mode))
    #+end_src
-** Ido-mode
-   #+begin_src emacs-lisp :tangle yes
-   (require 'ido)
-   (ido-mode t)
-   #+end_src
-   - ido-vertical
-  #+begin_src emacs-lisp :tangle yes
-   (use-package ido-vertical-mode
-      :ensure t
-      :init
-      (ido-vertical-mode 1))
-   ;; (setq ido-vertical-define-keys 'C-n-and-C-p-only);default C-s,C-r
-#+end_src
-** Swiper,ivy,coun
+** Swiper,ivy,counsel
    #+begin_src emacs-lisp :tangle yes
      (ivy-mode)
        (setq ivy-use-virtual-buffers t)
@@ -343,19 +352,28 @@
        ;; (setq search-default-mode #'char-fold-to-regexp)
        (global-set-key "\C-s" 'swiper)
        (global-set-key (kbd "C-c C-r") 'ivy-resume)
-       ;; (global-set-key (kbd "<f6>") 'ivy-resume)
        (global-set-key (kbd "M-x") 'counsel-M-x)
-       ;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-       ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-       ;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-       ;; (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-       ;; (global-set-key (kbd "<f1> l") 'counsel-find-library)
-       ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-       ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-       ;; (global-set-key (kbd "C-c g") 'counsel-git)
-       ;; (global-set-key (kbd "C-c j") 'counsel-git-grep)
-       ;; (global-set-key (kbd "C-c k") 'counsel-ag)
-       ;; (global-set-key (kbd "C-x l") 'counsel-locate)
-       ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
        (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+   #+end_src
+** Pdf view
+   #+begin_src emacs-lisp :tangle yes
+     ;; http://alberto.am/2020-04-11-pdf-tools-as-default-pdf-viewer.html
+     
+     ;; (use-package pdf-tools
+     ;;    :pin manual
+     ;;    :config
+     ;;     (pdf-tools-install)
+     ;;     (setq-default pdf-view-display-size 'fit-width)
+     ;;     (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+     ;;    :custom
+     ;;     (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
+
+     ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+     ;;  TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+     ;;  TeX-source-correlate-start-server t)
+     ;;  (add-hook 'TeX-after-compilation-finished-functions
+     ;;      #'TeX-revert-document-buffer)
+
+
+     ;;  (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
    #+end_src
