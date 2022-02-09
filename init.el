@@ -3,11 +3,9 @@
 ;;==============================
 (require 'org)
 (org-babel-load-file
- (expand-file-name "myAirinit.org"
-                   user-emacs-directory))
-(custom-set-variables
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(package-selected-packages
-   '(solarized-theme zenburn-theme material-theme elfeed yasnippet-classic-snippets markdown-toc markdown-preview-mode ## pandoc-mode ox-latex-subfigure auto-package-update list-packages-ext yasnippet-snippets ace-window yasnippet which-key use-package org-bullets markdown-mode))
- '(quote (markdown-command "/usr/local/bin/pandoc")))
+ (expand-file-name "myAirinit.org" user-emacs-directory))
+
+;;https://emacs.stackexchange.com/questions/62130/how-to-prevent-m-x-package-install-from-editing-my-emacs-file
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
