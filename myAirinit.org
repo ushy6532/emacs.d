@@ -30,40 +30,40 @@
 ** Window
 *** general
     #+begin_src emacs-lisp :tangle yes
-    ;;initial message stop
-    (setq inhibit-startup-message t)
-    (setq initial-scratch-message "")
+      ;;initial message stop
+      (setq inhibit-startup-message t)
+      (setq initial-scratch-message "")
 
-    ;;Window title 
-    (setq frame-title-format "dole's Emacs - %b")
-    (setq icon-title-format "Emacs - %b")
+      ;;Window title 
+      (setq frame-title-format "dole's Emacs - %b")
+      (setq icon-title-format "Emacs - %b")
 
-    ;;disable menubar
-    (menu-bar-mode 1)
-    (tool-bar-mode -1)
-    (toggle-scroll-bar -1) 
+      ;;disable menubar
+      (menu-bar-mode 1)
+      (tool-bar-mode -1)
+      (toggle-scroll-bar -1) 
 
-    ;;linum mode
-    ;;(global-linum-mode 1)
+      ;;linum mode
+      ;;(global-linum-mode 1)
 
-    ;;show mark range
-    (transient-mark-mode t)
+      ;;show mark range
+      (transient-mark-mode t)
 
-    ;;wordrap
-    (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+      ;;wordrap
+      (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
-    ;;kill whole line
-    (setq kill-whole-line 1)
+      ;;kill whole line
+      (setq kill-whole-line 1)
 
-    ;;line spacing
-    (setq-default line-spacing 8)
+      ;;line spacing
+      (setq-default line-spacing 8)
 
-    ;;search highlight
-    (setq search-highlight t)
+      ;;search highlight
+      (setq search-highlight t)
 
-    ;;smooth scrolling
-    (require 'smooth-scrolling)
-    (smooth-scrolling-mode 1)
+      ;;smooth scrolling
+      (require 'smooth-scrolling)
+      (smooth-scrolling-mode 1)
     #+end_src
 *** toggle fullscreen
     #+begin_src emacs-lisp :tangle yes
@@ -144,18 +144,20 @@
 * Korean. LANG
 ** Korean hangul,utf-8
   #+begin_src emacs-lisp :tangle yes
-   ;; eshell locale
-   (setenv "LANG" "ko_KR.UTF-8")
+    ;; eshell locale
+    (setenv "LANG" "ko_KR.UTF-8")
 
-   ;; UTF-8
-   (set-language-environment 'utf-8)
-   (prefer-coding-system 'utf-8)
-   ;; (setq locale-coding-system 'utf-8)
-   (set-default-coding-systems 'utf-8)
-   (set-terminal-coding-system 'utf-8)
-   (set-keyboard-coding-system 'utf-8)
-   (setq-default buffer-file-coding-system 'utf-8)
-   (setq-default coding-system-for-write 'utf-8) 
+    ;; UTF-8
+    (setq utf-translate-cjk-mode nil)
+    (setq defaut-file-name-coding-system 'utf-8)
+    (setq locale-coding-system 'utf-8)
+    (set-language-environment 'utf-8)
+    (prefer-coding-system 'utf-8)
+    (set-default-coding-systems 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (setq-default buffer-file-coding-system 'utf-8)
+    (setq-default coding-system-for-write 'utf-8) 
   #+end_src
 ** default Fonts
    #+begin_src emacs-lisp :tangle yes
@@ -188,29 +190,31 @@
      ;(setq calendar-holidays (append calendar-holidays korean-holidays)
    #+end_src 
 * Mode
-** Cua-mode
+** cua-mode
    #+begin_src emacs-lisp :tangle yes
      ;; CTR+C,V ; for win user
      (cua-mode)
    #+end_src
-** Org-mode
+** org-mode
 *** org
     #+begin_src emacs-lisp :tangle yes
-    (use-package org
-	:config
-      (progn
-        (setq org-startup-indented nil)
-        (setq org-hide-leading-stars nil)
-        (setq org-adapt-indentation t)))
-      
-        ;;(setq org-image-actual-width nil)        ;image fulscreen hebit
-        ;;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
-      
-	;; TODO set
-	;; C-c C-v : View todo list
-	;; C-c / t : 현재 할 일 항목외 모두 접기
-      (setq org-todo-keywords
-	 '((sequence "TODO" "ING" "WAIT" "DONE")))
+	    (use-package org
+		:config
+		(progn
+		  (setq org-startup-indented nil)
+		  (setq org-hide-leading-stars nil)
+		  (setq org-adapt-indentation t)))
+
+		  ;;(setq org-image-actual-width nil)        ;image fulscreen hebit
+		  ;;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
+
+		  ;; TODO set
+		  ;; C-c C-v : View todo list
+		  ;; C-c / t : 현재 할 일 항목외 모두 접기
+	     (setq org-todo-keywords
+			 '((sequence "TODO" "ING" "WAIT" "DONE")))
+	     (setq org-tag-alist '(("@Letsgo" . ?l) ("@works" . ?w) ("@golf" . ?g) ("@Buddhism" . ?b) ("@Reading" . ?r) ("@SonPyeng" . ?s) ("@Agriculture" . ?a)
+				   ("@emacs" . ?e) ("@IT" . ?I)))
     #+end_src    
 *** Agenda
     #+begin_src emacs-lisp :tangle yes
@@ -280,21 +284,21 @@
    #+end_src
 ** Company
    #+begin_src emacs-lisp :tangle yes
-     (use-package company
-        :ensure t
-        :init
-         (add-hook 'after-init-hook 'global-company-mode)
-        :config
-   	(setq company-idle-delay 0
-	      company-minimum-prefix-length 3
-	      company-selection-wrap-around t))
+     ;; (use-package company
+     ;;    :ensure t
+     ;;    :init
+     ;;     (add-hook 'after-init-hook 'global-company-mode)
+     ;;    :config
+     ;;    (setq company-idle-delay 0
+     ;; 	 company-minimum-prefix-length 3
+     ;; 	 company-selection-wrap-around t))
    #+end_src
    
    #+begin_src emacs-lisp :tangle yes
-     (use-package company-quickhelp          ; Documentation popups for Company
-      :ensure t
-      :defer t
-      :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
+     ;; (use-package company-quickhelp          ; Documentation popups for Company
+     ;;  :ensure t
+     ;;  :defer t
+     ;;  :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
    #+end_src
 ** Which-key
    #+begin_src emacs-lisp :tangle yes
@@ -322,7 +326,7 @@
        )
      ;;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
    #+end_src
-** Ido-mode
+** ido-mode
    #+begin_src emacs-lisp :tangle yes
     (require 'ido)
     (ido-mode t)
@@ -349,7 +353,7 @@
        (global-set-key (kbd "M-x") 'counsel-M-x)
        (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
    #+end_src
-** Expand-region
+** expand-region
    #+begin_src emacs-lisp :tangle yes
      ;;https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=jodi999&logNo=221063371134
      (require 'expand-region)
@@ -365,7 +369,7 @@
 ** Pdf view
    #+begin_src emacs-lisp :tangle yes
      ;; http://alberto.am/2020-04-11-pdf-tools-as-default-pdf-viewer.html
-     
+
      ;; (use-package pdf-tools
      ;;    :pin manual
      ;;    :config
@@ -382,5 +386,5 @@
      ;;      #'TeX-revert-document-buffer)
 
 
-     ;;  (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
+      ;; (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
    #+end_src
