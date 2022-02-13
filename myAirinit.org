@@ -14,8 +14,6 @@
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
-
-     ;; use-package package, 미 설치 자동설치
      (setq use-package-always-ensure t)
    #+end_src
 * General, Window
@@ -87,10 +85,10 @@
    #+end_src
 ** Recent File
     #+begin_src emacs-lisp :tangle yes
-      (require 'recentf)
-      (recentf-mode 1)
-      (setq recentf-max-menu-items 10)
-      (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+      ;; (require 'recentf)
+      ;; (recentf-mode 1)
+      ;; (setq recentf-max-menu-items 10)
+      ;; (global-set-key (kbd "C-x C-r") 'recentf-open-files)
     #+end_src
 ** Theme
 *** default theme
@@ -121,7 +119,7 @@
 	;; This interactive call is taken from `load-theme'
 	(interactive
 	 (list
-	  (intern (completing-read "Theme 선택[Tab]: "
+	  (intern (completing-read "Choice Theme : "
 				   (mapc 'symbol-name
 					 (custom-available-themes))))))
 	(let ((enabled-themes custom-enabled-themes))
@@ -212,8 +210,8 @@
 	  ;; C-c / t : 현재 할 일 항목외 모두 접기
      (setq org-todo-keywords
 		 '((sequence "TODO" "ING" "WAIT" "DONE")))
-     (setq org-tag-alist '(("Letsgo" . ?l) ("works" . ?w) ("golf" . ?g) ("Buddhism" . ?b) ("Reading" . ?r) ("SonPyeng" . ?s) ("Agriculture" . ?a)
-			   ("emacs" . ?e) ("IT" . ?I)))
+     (setq org-tag-alist '(("letsGo" . ?l) ("golf" . ?g) ("Buddhism" . ?b) ("Reading" . ?r) ("Agriculture" . ?a)
+			   ("emacs" . ?e)))
     #+end_src    
 *** Agenda
     #+begin_src emacs-lisp :tangle yes
