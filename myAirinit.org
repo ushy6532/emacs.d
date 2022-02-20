@@ -5,7 +5,6 @@
      (setq package-archives
       '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
 	      ("melpa" . "https://melpa.org/packages/")))
-	;;      ("gnu" . "https://elpa.gnu.org/packages/")))
      (package-initialize)
    #+end_src
 ** use Package
@@ -19,11 +18,11 @@
 * General, Window
 ** Path
    #+begin_src emacs-lisp :tangle yes
-     ;;https://www.emacswiki.org/emacs/ExecPath
-      (setq exec-path (append exec-path
-		       '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin")))
-      (setenv "PATH" (concat (getenv "PATH")
-		      ":/usr/local/bin:/usr/local/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:opt/homebrew/lib/pkgconfig"))
+	  ;;https://www.emacswiki.org/emacs/ExecPath
+	   (setq exec-path (append exec-path
+			    '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin" "/opt/homebrew/bin" "/opt/homebrew/sbin")))
+	   (setenv "PATH" (concat (getenv "PATH")
+			   ":/usr/local/bin:/usr/local/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:opt/homebrew/lib/pkgconfig"))
    #+end_src
 ** Window
 *** general
@@ -71,8 +70,7 @@
   
    #+begin_src emacs-lisp :tangle yes
      ;; toggle Full Screen
-     ;; https://superuser.com/questions/256404/fullscreen-emacs-in-osx
-     
+     ;; https://superuser.com/questions/256404/fullscreen-emacs-in-osx   
      (defun toggle-fullscreen (&optional f)
 	(interactive)
 	(let ((current-value (frame-parameter nil 'fullscreen)))
@@ -85,31 +83,27 @@
    #+end_src
 ** Recent File
     #+begin_src emacs-lisp :tangle yes
-      ;; (require 'recentf)
-      ;; (recentf-mode 1)
-      ;; (setq recentf-max-menu-items 10)
-      ;; (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+      (require 'recentf)
+      (recentf-mode 1)
+      (setq recentf-max-menu-items 10)
+      (global-set-key (kbd "C-x C-r") 'recentf-open-files)
     #+end_src
 ** Theme
-*** default theme
-    #+begin_src emacs-lisp :tangle yes
-      (load-theme 'material t)
-    #+end_src
 *** custom theme
     #+begin_src emacs-lisp :tangle yes
-     (use-package material-theme
-        :ensure t
-	:defer t)
+      (use-package material-theme
+	 :ensure t
+	 :defer t)
 
-     (use-package zenburn-theme
-	:ensure t
-	:defer t)
+      (use-package zenburn-theme
+	 :ensure t
+	 :defer t)
 
-     (use-package solarized-theme
-	:defer t
-	:init
-	(setq solarized-use-variable-pitch nil)
-	:ensure t)
+      (use-package solarized-theme
+	 :defer t
+	 :init
+	 (setq solarized-use-variable-pitch nil)
+	 :ensure t)
    #+end_src
 *** Switch themes
    #+begin_src emacs-lisp :tangle yes
@@ -133,11 +127,15 @@
 
       (global-set-key (kbd "C-c t") 'switch-theme)
     #+end_src
+*** default theme
+    #+begin_src emacs-lisp :tangle yes
+      (load-theme 'doom-1337 t)
+    #+end_src
 ** Initial mode
    #+begin_src emacs-lisp :tangle yes
      ;;initial mode -  ORGMode
      (setq initial-major-mode 'org-mode)
-     
+
    #+end_src
 * Korean. LANG
 ** Korean hangul,utf-8
@@ -191,7 +189,7 @@
 ** cua-mode
    #+begin_src emacs-lisp :tangle yes
      ;; CTR+C,V ; for win user
-     (cua-mode)
+     ;; (cua-mode)
    #+end_src
 ** org-mode
 *** org
@@ -281,28 +279,30 @@
    #+end_src
 ** Company
    #+begin_src emacs-lisp :tangle yes
-     ;; (use-package company
-     ;;    :ensure t
-     ;;    :init
-     ;;     (add-hook 'after-init-hook 'global-company-mode)
-     ;;    :config
-     ;;    (setq company-idle-delay 0
-     ;; 	 company-minimum-prefix-length 3
-     ;; 	 company-selection-wrap-around t))
+    (use-package company
+	:ensure t
+	:init
+	 (add-hook 'after-init-hook 'global-company-mode)
+	:config
+         (setq company-idle-delay 0
+	      company-minimum-prefix-length 3
+	      company-selection-wrap-around t))
    #+end_src
    
    #+begin_src emacs-lisp :tangle yes
-     ;; (use-package company-quickhelp          ; Documentation popups for Company
-     ;;  :ensure t
-     ;;  :defer t
-     ;;  :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
+    (use-package company-quickhelp          ; Documentation popups for Company
+        :ensure t
+        :defer t
+        :init
+         (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
    #+end_src
 ** Which-key
    #+begin_src emacs-lisp :tangle yes
-    (use-package which-key
-	 :ensure t
-	 :config
-          (which-key-mode))
+     (use-package which-key
+	  :ensure t
+	  :config
+	   (which-key-mode)
+	   (setq which-key-idie-delay 0.3))
    #+end_src
 ** Ace-window
    #+begin_src emacs-lisp :tangle yes
@@ -311,17 +311,6 @@
      (global-set-key [M-s-right] 'windmove-right)        ; move to right window
      (global-set-key [M-s-up] 'windmove-up)              ; move to upper window
      (global-set-key [M-s-down] 'windmove-down)          ; move to lower window
-   #+end_src
-** Markdown-mode
-   #+begin_src emacs-lisp :tangle yes
-     (use-package markdown-mode
-        :ensure t
-        :commands (markdown-mode gfm-mode)
-        :mode (("README\\.md\\'" . gfm-mode)
-	      ("\\.md\\'" . markdown-mode)
-	      ("\\.markdown\\'" . markdown-mode))
-       )
-     ;;  :init (setq markdown-command "multimarkdown")) ;; 기본 마크다운 렌더링 엔진
    #+end_src
 ** ido-mode
    #+begin_src emacs-lisp :tangle yes
@@ -340,15 +329,15 @@
 #+end_src
 ** Swiper,ivy,counsel
    #+begin_src emacs-lisp :tangle yes
-     (ivy-mode)
-       (setq ivy-use-virtual-buffers t)
-       (setq enable-recursive-minibuffers t)
-       ;; enable this if you want `swiper' to use it
-       ;; (setq search-default-mode #'char-fold-to-regexp)
-       (global-set-key "\C-s" 'swiper)
-       (global-set-key (kbd "C-c C-r") 'ivy-resume)
-       (global-set-key (kbd "M-x") 'counsel-M-x)
-       (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+    (ivy-mode)
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      ;; enable this if you want `swiper' to use it
+      ;; (setq search-default-mode #'char-fold-to-regexp)
+      (global-set-key "\C-s" 'swiper)
+      (global-set-key (kbd "C-c C-r") 'ivy-resume)
+      (global-set-key (kbd "M-x") 'counsel-M-x)
+      (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
    #+end_src
 ** expand-region
    #+begin_src emacs-lisp :tangle yes
@@ -362,26 +351,4 @@
      ;; (use-package flycheck
      ;;       :ensure t
      ;;       :init (global-flycheck-mode))
-   #+end_src
-** Pdf view
-   #+begin_src emacs-lisp :tangle yes
-     ;; http://alberto.am/2020-04-11-pdf-tools-as-default-pdf-viewer.html
-
-     ;; (use-package pdf-tools
-     ;;    :pin manual
-     ;;    :config
-     ;;     (pdf-tools-install)
-     ;;     (setq-default pdf-view-display-size 'fit-width)
-     ;;     (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-     ;;    :custom
-     ;;     (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
-
-     ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-     ;;  TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-     ;;  TeX-source-correlate-start-server t)
-     ;;  (add-hook 'TeX-after-compilation-finished-functions
-     ;;      #'TeX-revert-document-buffer)
-
-
-      ;; (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
    #+end_src
