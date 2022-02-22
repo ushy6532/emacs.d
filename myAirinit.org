@@ -61,6 +61,9 @@
       ;;smooth scrolling
       (require 'smooth-scrolling)
       (smooth-scrolling-mode 1)
+
+      ;;remember and restore the last cursor location of opened files
+      (save-place-mode 1)
     #+end_src
 *** toggle fullscreen
     #+begin_src emacs-lisp :tangle yes
