@@ -24,10 +24,15 @@
 	   (setenv "PATH" (concat (getenv "PATH")
 			   ":/usr/local/bin:/usr/local/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:opt/homebrew/lib/pkgconfig"))
    #+end_src
+** Backups
+   #+begin_src emacs-lisp :tangle yes
+     ;;https://sachachua.com/dotemacs/#orgf74aae4
+     (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
+   #+end_src
 ** Window
 *** general
     #+begin_src emacs-lisp :tangle yes
-      ;;initial message stop
+     ;;initial message stop
       (setq inhibit-startup-message t)
       (setq inhibit-startup-screen t)
       (setq initial-scratch-message nil)
@@ -87,10 +92,10 @@
    #+end_src
 ** Recent File
     #+begin_src emacs-lisp :tangle yes
-      (require 'recentf)
-      (recentf-mode 1)
-      (setq recentf-max-menu-items 10)
-      (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+     (require 'recentf)
+     (recentf-mode 1)
+     (setq recentf-max-menu-items 10)
+     (global-set-key (kbd "C-x C-r") 'recentf-open-files)
     #+end_src
 ** Theme
 *** custom theme
@@ -224,7 +229,7 @@
     ;; C-u C-c - 일자와 시간 추가
     ;; C-g - 하던 일 멈추고 벗어남. 명령 취소;
 
-    (setq org-agenda-files '("~/Dropbox/Doc/Life/org/myNotes.org"
+    (setq org-agenda-files '("~/Dropbox/Doc/Life/org/cNotes.org"
 			     "~/Dropbox/Doc/Life/org/Agenda.org"))
       
     (add-hook 'org-mode-hook 
@@ -233,33 +238,25 @@
     #+end_src    
 *** Capture
     #+begin_src emacs-lisp :tangle yes
-      ;; global key: C-c c
-	(setq org-capture-templates
-	 '(
-	   ("n" "Notes")
-	    ("nR" "reading" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Reading")
-			       "** %? ")
-	    ("nA" "agriculture" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Agriculture")
-			       "** %? ")	    
-	    ("nI" "idea" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "idea")
-			       "** %?\n add : %U %i")
-	    ("ne" "emacs" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Emacs")
-			       "** %? ")
-	    ("no" "orgMode" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "orgMode")
-			       "** %? ")
-	    ("ni" "iLife" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "iLife")
-			       "** %? ")
-	    ("j" "Journal & FarmNote")
-	    ("jj" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
-			       "* %?\n insert on: %U %i")
-	    ("jf" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
-			       "* %?\n 메모: %? ")
-	    ("c" "Contacts")
-	    ("cb" "Biz Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
-			       "** 이름: %?\n  - 회사: %?\n  - 연락: %?\n  - 메모: %?\n   %t")
-	    ("cj" "Join" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Join")
-			       "** 구장: %?\n  - 이름: %?\n  - 동반: %?\n  - 연락: %?\n  - 메모: %?\n   %t")))
-	 (global-set-key (kbd "C-c c") 'org-capture)
+    ;; global key: C-c c
+    (setq org-capture-templates    
+        '(
+	    ("n" "Notes")
+	     ("nT" "tmpNote" entry (file+datetree "~/Dropbox/Doc/Life/org/tmpNotes.org")
+			       "* %?\n insert on: %U %i") 
+	     ("nM" "myLife" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "myLife")
+				 "** %? ")
+             ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
+				 "* %?\n - memo: %? ")
+             ("ne" "emacs" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Emacs")
+				 "** %? ")
+             ("no" "orgMode" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "orgMode")
+				 "** %? ")
+             ("ni" "iT" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "iT")
+				 "** %? ")
+             ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
+				 "** Name: %?\n - Office: \n - Number: \n - Memo:    %t")))
+      (global-set-key (kbd "C-c c") 'org-capture)
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
@@ -365,9 +362,9 @@
 ** expand-region
    #+begin_src emacs-lisp :tangle yes
      ;;https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=jodi999&logNo=221063371134
-     (require 'expand-region)
-     (global-set-key (kbd "C-&") 'er/expand-region)
-     (global-set-key (kbd "C-M-&") 'er/contract-region)
+     ;; (require 'expand-region)
+     ;; (global-set-key (kbd "C-&") 'er/expand-region)
+     ;; (global-set-key (kbd "C-M-&") 'er/contract-region)
    #+end_src
 ** Flycheck
    #+begin_src emacs-lisp :tangle yes
