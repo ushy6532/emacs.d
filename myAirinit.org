@@ -29,7 +29,8 @@
     #+begin_src emacs-lisp :tangle yes
       ;;initial message stop
       (setq inhibit-startup-message t)
-      (setq initial-scratch-message "")
+      (setq inhibit-startup-screen t)
+      (setq initial-scratch-message nil)
 
       ;;Window title 
       (setq frame-title-format "dole's Emacs - %b")
@@ -232,14 +233,30 @@
     #+end_src    
 *** Capture
     #+begin_src emacs-lisp :tangle yes
-     ;; global key: C-c c
-    (setq org-capture-templates
-     '(
-        ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
-	      "* %?\n insert on: %U %i")
-        ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
-	      "** 이름: %?\n  - 회사: \n  - 연락: \n  - 메모: \n   %t")))
-     (global-set-key (kbd "C-c c") 'org-capture)
+      ;; global key: C-c c
+	(setq org-capture-templates
+	 '(
+	   ("n" "Notes")
+	    ("nR" "reading" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Reading")
+			       "** %? ")
+	    ("nF" "farms" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Farms")
+			       "** %? ")	    
+	    ("nI" "idea" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "idea")
+			       "** %?\n add : %U %i")
+	    ("ne" "emacs" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Emacs")
+			       "** %? ")
+	    ("no" "orgMode" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "orgMode")
+			       "** %? ")
+	    ("ni" "iLife" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "iLife")
+			       "** %? ")	    
+	    ("j" "Journal" entry (file+datetree "~/Dropbox/Doc/Life/org/journal.org")
+			       "* %?\n insert on: %U %i")
+	    ("c" "Contacts")
+	    ("cb" "Biz Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
+			       "** 이름: %?\n  - 회사: %?\n  - 연락: %?\n  - 메모: %?\n   %t")
+	    ("cj" "Join" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Join")
+			       "** 구장: %?\n  - 이름: %?\n  - 동반: %?\n  - 연락: %?\n  - 메모: %?\n   %t")))
+	 (global-set-key (kbd "C-c c") 'org-capture)
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
