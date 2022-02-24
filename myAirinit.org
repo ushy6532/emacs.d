@@ -238,25 +238,30 @@
     #+end_src    
 *** Capture
     #+begin_src emacs-lisp :tangle yes
-    ;; global key: C-c c
-    (setq org-capture-templates    
-        '(
-	    ("n" "Notes")
-	     ("nT" "tmpNote" entry (file+datetree "~/Dropbox/Doc/Life/org/tmpNotes.org")
-			       "* %?\n insert on: %U %i") 
-	     ("nM" "myLife" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "myLife")
-				 "** %? ")
-             ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
-				 "* %?\n - memo: %? ")
-             ("ne" "emacs" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Emacs")
-				 "** %? ")
-             ("no" "orgMode" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "orgMode")
-				 "** %? ")
-             ("ni" "iT" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "iT")
-				 "** %? ")
-             ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
-				 "** Name: %?\n - Office: \n - Number: \n - Memo:    %t")))
-      (global-set-key (kbd "C-c c") 'org-capture)
+      ;; global key: C-c c
+      ;; %^t : call Calendar
+      ;; %^ : prompt
+      ;;(add-to-list 'load-path "~/Dropbox/Doc/Life/org") 
+      (setq org-capture-templates
+	  '(
+	      ("n" "Notes")
+	       ("nT" "tmpNote" entry (file+datetree "~/Dropbox/Doc/Life/org/tmpNotes.org")
+				 "* %?\n insert on: %U %i") 
+	       ("nM" "myLife" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "myLife")
+				   "** %? ")
+	       ("nW" "Works" entry (file+datetree "~/Dropbox/Doc/Life/org/cNotes.org" "Works")
+				   "* %t %?")
+	       ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
+				   "* %^t %?\n - ")
+	       ("ne" "emacs" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Emacs")
+				   "** %? ")
+	       ("no" "orgMode" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "orgMode")
+				   "** %? ")
+	       ("ni" "iT" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "iT")
+				   "** %? ")
+	       ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
+				   "** Name: %?\n - Office: \n - Number: \n - Memo: ")))
+	(global-set-key (kbd "C-c c") 'org-capture)
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
