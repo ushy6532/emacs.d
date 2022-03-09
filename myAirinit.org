@@ -138,7 +138,9 @@
     #+end_src
 *** default theme
     #+begin_src emacs-lisp :tangle yes
-      (load-theme 'doom-1337 t)
+     (when window-system
+      (load-theme 'doom-solarized-light t)
+     )
     #+end_src
 ** Initial mode
    #+begin_src emacs-lisp :tangle yes
@@ -166,13 +168,13 @@
   #+end_src
 ** default Fonts
    #+begin_src emacs-lisp :tangle yes
-    (set-face-attribute 'default nil
-		 :family "D2coding"
-		 :foundry "SAND"
-		 :slant 'normal
-		 :weight 'normal
-		 :height 130
-		 :width 'normal)
+	 (set-face-attribute 'default nil
+              :family "D2coding"
+       	      :foundry "SAND"
+	      :slant 'normal
+	      :weight 'normal
+	      :height 130
+	      :width 'normal)
   #+end_src
 ** Keyboard
    #+begin_src emacs-lisp :tangle yes
@@ -377,3 +379,12 @@
      ;;       :ensure t
      ;;       :init (global-flycheck-mode))
    #+end_src
+
+** elfeed
+    #+begin_src emacs-lisp :tangle yes
+    (global-set-key (kbd "C-x w") 'elfeed)
+    (require 'elfeed-org)
+     (elfeed-org)
+     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeeds.org"))
+     (setq-default elfeed-search-filter "@2-week-ago +unread")
+    #+end_src
