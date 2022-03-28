@@ -168,13 +168,13 @@
   #+end_src
 ** default Fonts
    #+begin_src emacs-lisp :tangle yes
-	 (set-face-attribute 'default nil
-              :family "D2coding"
-       	      :foundry "SAND"
-	      :slant 'normal
-	      :weight 'normal
-	      :height 130
-	      :width 'normal)
+     (set-face-attribute 'default nil
+	  :family "D2coding"
+	  :foundry "SAND"
+	  :slant 'normal
+	  :weight 'normal
+	  :height 130
+	  :width 'normal)
   #+end_src
 ** Keyboard
    #+begin_src emacs-lisp :tangle yes
@@ -205,22 +205,22 @@
 ** org-mode
 *** org
     #+begin_src emacs-lisp :tangle yes
-     (use-package org
+      (use-package org
 	:config
-        (progn
+	(progn
 	  (setq org-startup-indented nil)
 	  (setq org-hide-leading-stars nil)
 	  (setq org-adapt-indentation t)))
-	  ;;(setq org-image-actual-width nil)        ;image fulscreen hebit
-	  ;;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
+      ;;(setq org-image-actual-width nil)        ;image fulscreen hebit
+      ;;(setq org-latex-image-default-width "") ;LaTeX 이미지 크기를 90%
 
-	  ;; TODO set
-	  ;; C-c C-v : View todo list
-	  ;; C-c / t : 현재 할 일 항목외 모두 접기
-     (setq org-todo-keywords
-		 '((sequence "TODO" "ING" "WAIT" "DONE")))
-     (setq org-tag-alist '(("letsGo" . ?l) ("golf" . ?g) ("Buddhism" . ?b) ("Reading" . ?r) ("Agriculture" . ?a)
-			   ("emacs" . ?e)))
+      ;; TODO set
+      ;; C-c C-v : View todo list
+      ;; C-c / t : 현재 할 일 항목외 모두 접기
+      (setq org-todo-keywords
+	    '((sequence "TODO" "ING" "WAIT" "DONE")))
+      (setq org-tag-alist '(("letsGo" . ?l) ("golf" . ?g) ("Buddhism" . ?b) ("Reading" . ?r) ("Agriculture" . ?a)
+			    ("emacs" . ?e)))
     #+end_src    
 *** Agenda
     #+begin_src emacs-lisp :tangle yes
@@ -257,9 +257,7 @@
 				   "* %^t %?\n - ")
 	       ("ne" "emacs" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Emacs")
 				   "** %? ")
-	       ("no" "orgMode" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "orgMode")
-				   "** %? ")
-	       ("ni" "iT" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "iT")
+	       ("na" "aGary" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "aGri")
 				   "** %? ")
 	       ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
 				   "** Name: %?\n - Office: \n - Number: \n - Memo: ")))
@@ -275,20 +273,24 @@
     #+end_src
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
-     ;;for export PDF
-     ;;https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc/42579
-     (setq org-latex-title-command "\\maketitle \\newpage")
-     (setq org-latex-toc-command "\\tableofcontents \\newpage")
-     ;;(setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;Title→TOC→BlankPage→Contents
+  ;;for export PDF
+  ;;https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc/42579
+  (setq org-latex-title-command "\\maketitle \\newpage")
+  (setq org-latex-toc-command "\\tableofcontents \\newpage")
+  ;;(setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;Title→TOC→BlankPage→Contents
 
-     (setq org-latex-to-pdf-process
-	     '("pdflatex -interaction nonstopmode -output-directory %o %f"
-	       "pdflatex -interaction nonstopmode -output-directory %o %f"
-	       "pdflatex -interaction nonstopmode -output-directory %o %f"))
+  ;;https://www.linuxjournal.com/content/org-mode-latex-exporter-latex-non-texers
+  ;; (setq org-src-preserve-indentation t
+  ;; 	    org-src-fontify-natively t)
 
-     ;;for export markdown
-      (eval-after-load "org"
-	'(require 'ox-md nil t))
+  (setq org-latex-to-pdf-process
+	  '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	    "pdflatex -interaction nonstopmode -output-directory %o %f"
+	    "pdflatex -interaction nonstopmode -output-directory %o %f"))
+
+	  ;;for export markdown
+	   (eval-after-load "org"
+	     '(require 'ox-md nil t))
    #+end_src   
 *** for Slide
    #+begin_src emacs-lisp :tangle yes
@@ -328,8 +330,8 @@
      (use-package which-key
 	  :ensure t
 	  :config
-	   (which-key-mode)
-	   (setq which-key-idie-delay 0.3))
+       (which-key-mode)
+       (setq which-key-idie-delay 0.3))
    #+end_src
 ** Ace-window
    #+begin_src emacs-lisp :tangle yes
@@ -351,8 +353,8 @@
     (use-package ido-vertical-mode
 	  :ensure t
 	  :init
-	  (ido-vertical-mode 1))
-          (setq ido-vertical-define-keys 'C-n-and-C-p-only);default C-s,C-r
+      (ido-vertical-mode 1))
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only);default C-s,C-r
 #+end_src
 ** Swiper,ivy,counsel
    #+begin_src emacs-lisp :tangle yes
@@ -362,7 +364,7 @@
       ;; enable this if you want `swiper' to use it
       ;; (setq search-default-mode #'char-fold-to-regexp)
       (global-set-key "\C-s" 'swiper)
-      (global-set-key (kbd "C-c C-r") 'ivy-resume)
+;      (global-set-key (kbd "C-c C-r") 'ivy-resume)
       (global-set-key (kbd "M-x") 'counsel-M-x)
       (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
    #+end_src
@@ -385,6 +387,6 @@
     (global-set-key (kbd "C-x w") 'elfeed)
     (require 'elfeed-org)
      (elfeed-org)
-     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeeds.org"))
-     (setq-default elfeed-search-filter "@2-week-ago +unread")
+    (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeeds.org"))
+    (setq-default elfeed-search-filter "@2-week-ago +unread")
     #+end_src
