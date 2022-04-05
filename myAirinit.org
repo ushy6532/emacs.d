@@ -148,6 +148,14 @@
      (setq initial-major-mode 'org-mode)
 
    #+end_src
+** Function
+   #+begin_src emacs-lisp :tangle yes
+     ;; insert new line below current line
+     (global-set-key (kbd "C-0") (lambda ()
+			(interactive)
+			(end-of-line)
+			(newline-and-indent)))
+   #+end_src
 * Korean. LANG
 ** Korean hangul,utf-8
   #+begin_src emacs-lisp :tangle yes
@@ -186,7 +194,7 @@
      ;;for korean
      ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
      (setq calendar-week-start-day 0 
-	   calendar-day-name-array ["일" "월" "화" "수" "목" "금" "토"]
+	   calendar-day-name-array ["sun" "mon" "tre" "wed" "thu" "fri" "sat"]
 	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
 	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
    #+end_src
@@ -265,11 +273,11 @@
     #+end_src
 *** for bullet
     #+begin_src emacs-lisp :tangle yes
-    ;; org-superstar  ;; improved version of org-bullets
-    (use-package org-superstar
-	:ensure t
-	:config
-         (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+      ;; org-superstar  ;; improved version of org-bullets
+      (use-package org-superstar
+	  :ensure t
+	  :config
+	   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
     #+end_src
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
