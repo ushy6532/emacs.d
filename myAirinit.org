@@ -194,7 +194,7 @@
      ;;for korean
      ;;https://emacsredux.com/blog/2021/06/08/emacs-as-your-calendar/
      (setq calendar-week-start-day 0 
-	   calendar-day-name-array ["sun" "mon" "tre" "wed" "thu" "fri" "sat"]
+	   calendar-day-name-array ["sun" "mon" "tue" "wed" "thu" "fri" "sat"]
 	   calendar-day-header-array ["일" "월" "화" "수" "목" "금" "토"]
 	   calendar-month-name-array ["1월" "2월" "3월" "4월" "5월" "6월" "7월" "8월" "9월" "10월" "11월" "12월"])
    #+end_src
@@ -256,28 +256,26 @@
 	  '(
 	      ("n" "Notes")
 	       ("nT" "tmpNote" entry (file+datetree "~/Dropbox/Doc/Life/org/tmpNotes.org")
-				 "* %?\n insert on: %U %i") 
+				 "* %?\n insert on: %U %i")
+       	       ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
+			   "* %^t %?\n - ")
 	       ("nM" "myLife" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "myLife")
 				   "** %? ")
 	       ("nW" "Works" entry (file+datetree "~/Dropbox/Doc/Life/org/cNotes.org" "Works")
 				   "* %t %?")
-	       ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
-				   "* %^t %?\n - ")
-	       ("ne" "emacs" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "Emacs")
-				   "** %? ")
-	       ("na" "aGary" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "aGri")
+	       ("nG" "aGary" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "aGri")
 				   "** %? ")
 	       ("c" "Contacts" entry (file+headline "~/Dropbox/Doc/Life/org/contacts.org" "Biz")
 				   "** Name: %?\n - Office: \n - Number: \n - Memo: ")))
 	(global-set-key (kbd "C-c c") 'org-capture)
     #+end_src
-*** for bullet
+*** bullets
     #+begin_src emacs-lisp :tangle yes
-      ;; org-superstar  ;; improved version of org-bullets
-      (use-package org-superstar
-	  :ensure t
-	  :config
-	   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+      ;; org-bullets
+      (use-package org-bullets
+	   :ensure t
+	   :config
+          (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
     #+end_src
 *** export PDF,markdown
    #+begin_src emacs-lisp :tangle yes
