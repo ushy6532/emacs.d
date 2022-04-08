@@ -283,12 +283,6 @@
   ;;https://emacs.stackexchange.com/questions/42558/org-mode-export-force-page-break-after-toc/42579
   (setq org-latex-title-command "\\maketitle \\newpage")
   (setq org-latex-toc-command "\\tableofcontents \\newpage")
-  ;;(setq org-latex-toc-command "\\newpage \\tableofcontents \\newpage") ;Title→TOC→BlankPage→Contents
-
-  ;;https://www.linuxjournal.com/content/org-mode-latex-exporter-latex-non-texers
-  ;; (setq org-src-preserve-indentation t
-  ;; 	    org-src-fontify-natively t)
-
   (setq org-latex-to-pdf-process
 	  '("pdflatex -interaction nonstopmode -output-directory %o %f"
 	    "pdflatex -interaction nonstopmode -output-directory %o %f"
@@ -396,3 +390,14 @@
     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeeds.org"))
     (setq-default elfeed-search-filter "@2-week-ago +unread")
     #+end_src
+
+** dashboard
+   #+begin_src emacs-lisp :tangle yes
+     (use-package dashboard
+       :ensure t
+       :config
+       (setq dashboard-banner-logo-title "Welcome to Dole's Emacs")
+       ;; Content is not centered by default. To center, set
+       (setq dashboard-center-content t)
+       (dashboard-setup-startup-hook))
+   #+end_src
