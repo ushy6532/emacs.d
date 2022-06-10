@@ -7,3 +7,4 @@
 * https://cestlaz.github.io/stories/emacs/
 * https://github.com/emacs-tw/awesome-emacs
 * https://www.astro.umd.edu/~chongchong/emacs-dotfile/
+* https://xgarrido.github.io/emacs-starter-kit/starter-kit-org.html
