@@ -1,11 +1,12 @@
 * Packages
 ** Source list
    #+begin_src emacs-lisp :tangle yes
-     (require 'package)
-     (setq package-archives
-      '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
-	      ("melpa" . "https://melpa.org/packages/")))
-     (package-initialize)
+	  (require 'package)
+	  (setq package-archives
+	   '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
+		   ("melpa" . "https://melpa.org/packages/")
+		   ("gnu" . "https://elpa.gnu.org/packages/")))
+	  (package-initialize)
    #+end_src
 ** use Package
    #+begin_src emacs-lisp :tangle yes
@@ -18,58 +19,60 @@
 * General, Window
 ** Path
    #+begin_src emacs-lisp :tangle yes
-	  ;;https://www.emacswiki.org/emacs/ExecPath
-	   (setq exec-path (append exec-path
-			    '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin" "/opt/homebrew/bin" "/opt/homebrew/sbin")))
-	   (setenv "PATH" (concat (getenv "PATH")
-			   ":/usr/local/bin:/usr/local/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:opt/homebrew/lib/pkgconfig"))
+     ;;https://www.emacswiki.org/emacs/ExecPath
+      (setq exec-path (append exec-path
+		       '("/Library/TeX/texbin" "/usr/bin" "/bin" "/usr/bin" "/usr/local/bin" "/sbin" "/opt/homebrew/bin" "/opt/homebrew/sbin")))
+      (setenv "PATH" (concat (getenv "PATH")
+		      ":/usr/local/bin:/usr/local/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:opt/homebrew/lib/pkgconfig"))
    #+end_src
 ** Backups
    #+begin_src emacs-lisp :tangle yes
      ;;https://sachachua.com/dotemacs/#orgf74aae4
      (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
    #+end_src
-** Window
+** genral, Window
 *** general
     #+begin_src emacs-lisp :tangle yes
-     ;;initial message stop
-      (setq inhibit-startup-message t)
-      (setq inhibit-startup-screen t)
-      (setq initial-scratch-message nil)
+      ;;initial message stop
+       (setq inhibit-startup-message t)
+       (setq inhibit-startup-screen t)
+       (setq initial-scratch-message nil)
 
-      ;;Window title 
-      (setq frame-title-format "dole's Emacs - %b")
-      (setq icon-title-format "Emacs - %b")
+       ;;Window title 
+       (setq frame-title-format "dole's Emacs - %b")
+       (setq icon-title-format "Emacs - %b")
 
-      ;;disable menubar
-      (menu-bar-mode 1)
-      (tool-bar-mode -1)
-      (toggle-scroll-bar -1) 
+       ;;disable menubar
+       (menu-bar-mode 1)
+       (tool-bar-mode -1)
+       (toggle-scroll-bar -1) 
 
-      ;;linum mode
-      ;;(global-linum-mode 1)
+       ;;linum mode
+       ;;(global-linum-mode 1)
 
-      ;;show mark range
-      (transient-mark-mode t)
+       ;;show mark range
+       (transient-mark-mode t)
 
-      ;;wordrap
-      (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+       ;;wordrap
+       (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
-      ;;kill whole line
-      (setq kill-whole-line 1)
+       ;;kill whole line
+       (setq kill-whole-line 1)
 
-      ;;line spacing
-      (setq-default line-spacing 8)
+       ;;line spacing
+       (setq-default line-spacing 8)
 
-      ;;search highlight
-      (setq search-highlight t)
+       ;;search highlight
+       (setq search-highlight t)
 
-      ;;smooth scrolling
-      (require 'smooth-scrolling)
-      (smooth-scrolling-mode 1)
+       ;;smooth scrolling
+       (require 'smooth-scrolling)
+       (smooth-scrolling-mode 1)
 
-      ;;remember and restore the last cursor location of opened files
-      (save-place-mode 1)
+       ;;remember and restore the last cursor location of opened files
+       (save-place-mode 1)
+       (global-font-lock-mode 1)                      ; Color enabled
+       (global-hl-line-mode t)                        ; Highlight cursor line
     #+end_src
 *** toggle fullscreen
     #+begin_src emacs-lisp :tangle yes
@@ -89,6 +92,11 @@
 	      (progn (setq old-fullscreen current-value)
 		'fullboth)))))
       (global-set-key (kbd "C-x x") 'toggle-fullscreen)
+   #+end_src
+*** Global key
+    #+begin_src emacs-lisp :tangle yes
+      ;; (global-set-key (kbd "<f12>") 'next-buffer)
+      ;; (global-set-key (kbd "<f11>") 'previous-buffer)
    #+end_src
 ** Recent File
     #+begin_src emacs-lisp :tangle yes
@@ -139,14 +147,13 @@
 *** default theme
     #+begin_src emacs-lisp :tangle yes
      (when window-system
-      (load-theme 'doom-solarized-light t)
+      (load-theme 'doom-acario-light t)
      )
     #+end_src
 ** Initial mode
    #+begin_src emacs-lisp :tangle yes
      ;;initial mode -  ORGMode
      (setq initial-major-mode 'org-mode)
-
    #+end_src
 ** Function
    #+begin_src emacs-lisp :tangle yes
@@ -257,8 +264,10 @@
 	      ("n" "Notes")
 	       ("nT" "tmpNote" entry (file+datetree "~/Dropbox/Doc/Life/org/tmpNotes.org")
 				 "* %?\n insert on: %U %i")
-       	       ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
-			   "* %^t %?\n - ")
+	       ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
+			   "* %?")
+;       	       ("nF" "DongFarmNote" entry (file+datetree "~/Dropbox/Doc/Life/org/dFarmNote.org")
+;			   "* %^t %?\n - ")
 	       ("nM" "myLife" entry (file+headline "~/Dropbox/Doc/Life/org/cNotes.org" "myLife")
 				   "** %? ")
 	       ("nW" "Works" entry (file+datetree "~/Dropbox/Doc/Life/org/cNotes.org" "Works")
@@ -298,40 +307,69 @@
 	:custom
          (org-image-actual-width nil))
     #+end_src
+*** Function
+    #+begin_src emacs-lisp :tangle yes
+      ;;(defun create-ithoughts-file-link ()
+	;; emacs org-mode (function  )
+	;; to add a link to ithoughtsX mindmap file
+	;; main purpose is capability to automatically create the file if it doesn't exist
+	;; also adds file extension to name as I never remember the extension correctly
+	;; mapped to a hyperkey based key mapping (I remapped my long-press tab as a hyperkey)
+	;; https://gist.github.com/fooqri/38a690f5ddec03a288aa8e75704e4fac
+       ;;  (interactive)
+      ;;   (let ((filename (concat (read-string "Enter a name:") ".itmz"))
+      ;; 	(description (read-string "Enter a description:"))
+      ;; 	)
+      ;;     (let ((default-directory "~/org/mindmaps"))
+      ;;       (if (f-exists? filename)                             
+      ;; 	  (message (concat "File Exists:" filename))
+      ;; 	(shell-command-to-string (concat "cp Template.itmz " filename))
+      ;; 	)
+      ;;       (org-insert-link "file" (concat "~/org/mindmaps/" filename) description)
+      ;;       )
+      ;;     )) 
+
+      ;; (global-set-key (kbd "C-M-S-s-u l") 'create-ithoughts-file-link) ;;map to <hyper>-u l
+    #+end_src
 ** Yasnippet
    #+begin_src emacs-lisp :tangle yes
     (use-package yasnippet
         :ensure t
         :init
          (progn
-	      (yas-global-mode 1)))
+	   (yas-global-mode 1)))
    #+end_src
-** Company
-   #+begin_src emacs-lisp :tangle yes
-    (use-package company
-	:ensure t
-	:init
-	 (add-hook 'after-init-hook 'global-company-mode)
-	:config
-         (setq company-idle-delay 0
-	      company-minimum-prefix-length 3
-	      company-selection-wrap-around t))
-   #+end_src
+** Auto-complete, Company
+*** autocomplete
+    #+begin_src emacs-lisp :tangle yes
+      (ac-config-default)
+    #+end_src
+*** company
+    #+begin_src emacs-lisp :tangle yes
+      ;; (use-package company
+      ;;     :ensure t
+      ;;     :init
+      ;;      (add-hook 'after-init-hook 'global-company-mode)
+      ;;     :config
+      ;;      (setq company-idle-delay 0
+      ;; 	  company-minimum-prefix-length 3
+      ;; 	  company-selection-wrap-around t))
+    #+end_src
    
-   #+begin_src emacs-lisp :tangle yes
-    (use-package company-quickhelp          ; Documentation popups for Company
-        :ensure t
-        :defer t
-        :init
-         (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
-   #+end_src
+    #+begin_src emacs-lisp :tangle yes
+      ;; (use-package company-quickhelp          ; Documentation popups for Company
+      ;;     :ensure t
+      ;;     :defer t
+      ;;     :init
+      ;;      (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
+    #+end_src
 ** Which-key
    #+begin_src emacs-lisp :tangle yes
      (use-package which-key
 	  :ensure t
 	  :config
-       (which-key-mode)
-       (setq which-key-idie-delay 0.3))
+           (which-key-mode)
+           (setq which-key-idie-delay 0.3))
    #+end_src
 ** Ace-window
    #+begin_src emacs-lisp :tangle yes
@@ -343,17 +381,17 @@
    #+end_src
 ** ido-mode
    #+begin_src emacs-lisp :tangle yes
-    (require 'ido)
-    (ido-mode t)
-    (ido-everywhere t)
+     (require 'ido)
+     (ido-mode t)
+     (ido-everywhere t)
    #+end_src
    
   #+begin_src emacs-lisp :tangle yes
-    ;; ido-vertical
+    ;;ido-vertical
     (use-package ido-vertical-mode
 	  :ensure t
 	  :init
-      (ido-vertical-mode 1))
+	   (ido-vertical-mode 1))
     (setq ido-vertical-define-keys 'C-n-and-C-p-only);default C-s,C-r
 #+end_src
 ** Swiper,ivy,counsel
@@ -381,23 +419,23 @@
      ;;       :ensure t
      ;;       :init (global-flycheck-mode))
    #+end_src
-
 ** elfeed
     #+begin_src emacs-lisp :tangle yes
     (global-set-key (kbd "C-x w") 'elfeed)
     (require 'elfeed-org)
      (elfeed-org)
     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeeds.org"))
-    (setq-default elfeed-search-filter "@2-week-ago +unread")
+    (setq-default elfeed-search-filter "@1-week-ago +unread")
     #+end_src
 
 ** dashboard
    #+begin_src emacs-lisp :tangle yes
-     (use-package dashboard
-       :ensure t
-       :config
-       (setq dashboard-banner-logo-title "Welcome to Dole's Emacs")
-       ;; Content is not centered by default. To center, set
-       (setq dashboard-center-content t)
-       (dashboard-setup-startup-hook))
+     ;; (use-package dashboard
+     ;;   :ensure t
+     ;;   :config
+     ;;   (setq dashboard-banner-logo-title "오늘도 즐거운 emacs life~^")
+     ;;   (setq dashboard-startup-banner "~/.emacs.d/image/logoemacs.png")
+     ;;   (setq dashboard-center-content t)
+     ;;   (setq dashboard-set-footer nil)
+     ;;   (dashboard-setup-startup-hook))
    #+end_src
